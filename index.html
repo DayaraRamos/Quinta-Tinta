@@ -19,13 +19,16 @@
   <span class="quinta-text">QUINTA&nbsp;TINTA</span>
 </div>    
 
-<nav class="links">
-      <button onclick="setActiveNav(this); scrollToId('inicio')">Inicio</button>
-      <button onclick="setActiveNav(this); filterAndScroll('camisetas')">Camisetas</button>
-      <button onclick="setActiveNav(this); filterAndScroll('pocillos')">Pocillos</button>
-      <button onclick="setActiveNav(this); filterAndScroll('buzos')">Buzos</button>
-      <button onclick="setActiveNav(this); scrollToId('contacto')">Contacto</button>
+<nav class="links" id="navLinks">
+      <button onclick="setActiveNav(this); scrollToId('inicio'); closeMobileMenu();">Inicio</button>
+      <button onclick="setActiveNav(this); filterAndScroll('camisetas'); closeMobileMenu();">Camisetas</button>
+      <button onclick="setActiveNav(this); filterAndScroll('pocillos'); closeMobileMenu();">Pocillos</button>
+      <button onclick="setActiveNav(this); filterAndScroll('buzos'); closeMobileMenu();">Buzos</button>
+      <button onclick="setActiveNav(this); scrollToId('contacto'); closeMobileMenu();">Contacto</button>
     </nav>
+    <button class="hamburger-btn" onclick="toggleMobileMenu()" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
     <button class="cart-btn" onclick="openDrawer()">
       Pedido <span class="cart-count" id="cartCount">0</span>
     </button>

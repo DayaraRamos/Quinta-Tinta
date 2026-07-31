@@ -73,6 +73,13 @@ async function cargarProductos(){
   btn.classList.add('active');
 }
 
+function toggleMobileMenu(){
+  document.getElementById('navLinks').classList.toggle('open');
+}
+function closeMobileMenu(){
+  document.getElementById('navLinks').classList.remove('open');
+}
+
 function toggleBrandReveal(){
   document.getElementById('quintaTinta').classList.toggle('revealed');
 }
