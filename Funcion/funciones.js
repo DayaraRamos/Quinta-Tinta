@@ -23,13 +23,14 @@ async function cargarProductos(){
   let id = 1;
   Object.keys(data).forEach(cat=>{
     data[cat].forEach(item=>{
-      PRODUCTS.push({id:id++, cat, name:item.name, img:item.img});
+      PRODUCTS.push({id:id++, cat, name:item.name, images:item.images || []});
     });
   });
 }
 
   let activeFilter = "todos";
   let order = {}; // id -> {product, qty}
+  let imgIndex = {}; // id de producto -> índice de la foto actual
 
   
   function pattern(cat, seed){
@@ -86,10 +87,17 @@ function toggleBrandReveal(){
       return `
       <div class="card">
         <span class="reg" style="color:#fff"><span class="reg-circle"></span></span>
-        
+
         <div class="swatch" style="background:linear-gradient(135deg, rgb(${c}) 0%, var(--ink) 140%);">
-  ${p.img ? `
-    <img src="${p.img}" alt="${p.name}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+  ${p.images && p.images.length > 0 ? `
+    <img src="${p.images[imgIndex[p.id]||0]}" alt="${p.name}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+    ${p.images.length > 1 ? `
+      <button onclick="event.stopPropagation(); cambiarFoto(${p.id}, -1, ${p.images.length})" style="position:absolute;left:6px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.5);color:#fff;border:none;width:26px;height:26px;border-radius:50%;z-index:3;">‹</button>
+      <button onclick="event.stopPropagation(); cambiarFoto(${p.id}, 1, ${p.images.length})" style="position:absolute;right:6px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.5);color:#fff;border:none;width:26px;height:26px;border-radius:50%;z-index:3;">›</button>
+      <div style="position:absolute;bottom:26px;left:0;right:0;display:flex;justify-content:center;gap:5px;z-index:3;">
+        ${p.images.map((_, idx)=>`<span style="width:6px;height:6px;border-radius:50%;background:${(imgIndex[p.id]||0)===idx?'#fff':'rgba(255,255,255,.4)'};"></span>`).join("")}
+      </div>
+    ` : ""}
   ` : `
     <svg width="60" height="60" style="position:absolute;inset:0;" viewBox="0 0 60 60">${pattern(p.cat,i)}</svg>
     ${ICONS[p.cat]}
@@ -120,6 +128,12 @@ function toggleBrandReveal(){
     updateCartCount();
     renderDrawer();
   }
+
+function cambiarFoto(pid, delta, total){
+  const actual = imgIndex[pid] || 0;
+  imgIndex[pid] = (actual + delta + total) % total;
+  renderGrid();
+}
 
   function changeQty(pid, delta){
     if(!order[pid]) return;

@@ -1,23 +1,23 @@
 {
   "camisetas": [
-    {"name": "Calabera Glitter", "img": "img/camisas/calaberaglitter.JPEG"},
+    {"name": "Calabera Glitter", "images": ["img/camisas/calaberaglitter.JPEG", "img/camisas/calaberaglitter1.JPEG", "img/camisas/calaberaglitter3.JPEG"]},
     {"name": "Kiss Banda", "img": "img/camisas/kiss.JPEG"},
     {"name": "Calavera fuego", "img": "img/camisas/calaverafuego.JPEG"},
-    {"name": "Minimal Line Art", "img": null},
-    {"name": "Tipografía Retro", "img": null},
-    {"name": "Skate Club", "img": null},
-    {"name": "Minimal Line Art", "img": null}
+    {"name": "Minimal Line Art", "images": []},
+    {"name": "Tipografía Retro", "images": []},
+    {"name": "Skate Club", "images": []},
+    {"name": "Minimal Line Art", "images": []}
   ],
   "pocillos": [
-    {"name": "Frase Motivacional", "img": null},
-    {"name": "Café & Letras", "img": null},
-    {"name": "Ilustración Botánica", "img": null},
-    {"name": "Doble Cara Gradiente", "img": null}
+    {"name": "Frase Motivacional", "images": []},
+    {"name": "Café & Letras", "images": []},
+    {"name": "Ilustración Botánica", "images": []},
+    {"name": "Doble Cara Gradiente", "images": []}
   ],
   "buzos": [
-    {"name": "Oversize Bordado", "img": null},
-    {"name": "Logo Frontal", "img": null},
-    {"name": "Grunge Print", "img": null},
-    {"name": "Streetwear Bold", "img": null}
+    {"name": "Oversize Bordado", "images": []},
+    {"name": "Logo Frontal", "images": []},
+    {"name": "Grunge Print", "images": []},
+    {"name": "Streetwear Bold", "images": []}
   ]
 }
