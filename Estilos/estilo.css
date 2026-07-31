@@ -194,9 +194,19 @@
     transition:transform .12s ease, background .15s ease;
   }
   .btn:active{transform:scale(0.96);}
-  .btn-primary{background:var(--magenta);color:#fff;}
+  .btn-primary{
+    text-decoration:none;
+    border-radius:20px;
+    background:var(--magenta);
+    color:#fff;}
+
   .btn-primary:hover{background:#c91569;}
-  .btn-outline{border-color:var(--text-on-ink);color:var(--text-on-ink);}
+
+  .btn-outline{
+    text-decoration:none;
+    border-radius:20px;
+    border-color:var(--text-on-ink);
+    color:var(--text-on-ink);}
   .btn-outline:hover{background:rgba(255,255,255,.08);}
 
   .hero-stampcard{
