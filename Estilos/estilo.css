@@ -353,14 +353,34 @@
 
   /* ---------- FOOTER ---------- */
   footer{
-    background:var(--ink);color:#8A8377;
-    padding:26px 20px;
-    font-family:'Space Mono',monospace;
-    font-size:11px;
-    text-align:center;
-    letter-spacing:.04em;
-  }
-  footer b{color:var(--text-on-ink);}
+  background:var(--ink);color:#8A8377;
+  padding:26px 20px;
+  font-family:'Space Mono',monospace;
+  font-size:11px;
+  text-align:center;
+  letter-spacing:.04em;
+}
+footer b{color:var(--text-on-ink);}
+
+
+.footer-inner{
+  display:flex;flex-direction:column;align-items:center;gap:14px;
+}
+.footer-social{
+  display:flex;gap:14px;
+}
+.footer-social a{
+  width:36px;height:36px;
+  display:flex;align-items:center;justify-content:center;
+  border:1.5px solid #8A8377;
+  border-radius:50%;
+  color:#8A8377;
+  transition:border-color .15s ease, color .15s ease;
+}
+.footer-social a:hover{
+  border-color:var(--yellow);
+  color:var(--yellow);
+}
 
   /* ---------- WHATSAPP FAB ---------- */
   .wa-fab{
