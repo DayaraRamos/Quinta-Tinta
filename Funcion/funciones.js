@@ -88,8 +88,7 @@ function toggleBrandReveal(){
       <div class="card">
         <span class="reg" style="color:#fff"><span class="reg-circle"></span></span>
 
-        <div class="swatch" style="background:linear-gradient(135deg, rgb(${c}) 0%, var(--ink) 140%);">
-  ${p.images && p.images.length > 0 ? `
+<div class="swatch ${p.images && p.images.length>0 ? 'clickable':''}" style="background:linear-gradient(135deg, rgb(${c}) 0%, var(--ink) 140%);" onclick="${p.images && p.images.length>0 ? `openLightbox(${p.id})` : ''}">  ${p.images && p.images.length > 0 ? `
     <img src="${p.images[imgIndex[p.id]||0]}" alt="${p.name}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
     ${p.images.length > 1 ? `
       <button onclick="event.stopPropagation(); cambiarFoto(${p.id}, -1, ${p.images.length})" style="position:absolute;left:6px;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.5);color:#fff;border:none;width:26px;height:26px;border-radius:50%;z-index:3;">‹</button>
@@ -133,6 +132,36 @@ function cambiarFoto(pid, delta, total){
   const actual = imgIndex[pid] || 0;
   imgIndex[pid] = (actual + delta + total) % total;
   renderGrid();
+}
+
+let lightboxState = {images:[], index:0, name:""};
+
+function openLightbox(pid){
+  const product = PRODUCTS.find(p=>p.id===pid);
+  if(!product || !product.images || product.images.length===0) return;
+  lightboxState = {images:product.images, index:0, name:product.name};
+  renderLightbox();
+  document.getElementById('lightbox').classList.add('open');
+  document.getElementById('lightboxOverlay').classList.add('open');
+}
+
+function closeLightbox(){
+  document.getElementById('lightbox').classList.remove('open');
+  document.getElementById('lightboxOverlay').classList.remove('open');
+}
+
+function lightboxNav(delta){
+  const total = lightboxState.images.length;
+  lightboxState.index = (lightboxState.index + delta + total) % total;
+  renderLightbox();
+}
+
+function renderLightbox(){
+  document.getElementById('lightboxImg').src = lightboxState.images[lightboxState.index];
+  document.getElementById('lightboxTitle').textContent = lightboxState.name;
+  document.getElementById('lightboxDots').innerHTML = lightboxState.images.map((_,i)=>
+    `<span class="${i===lightboxState.index?'active':''}"></span>`
+  ).join("");
 }
 
   function changeQty(pid, delta){
