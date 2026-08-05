@@ -1,12 +1,15 @@
 {
   "camisetas": [
     {"name": "Calabera Glitter", "images": ["img/camisas/cam1.JPEG", "img/camisas/cam1_2.JPEG", "img/camisas/cam1_3.JPEG"]},
-    {"name": "Kiss Banda", "images": ["img/camisas/cam2.JPEG"]},
-    {"name": "Calavera fuego", "images": ["img/camisas/cam3.JPEG"]},
-    {"name": "Minimal Line Art", "images": ["img/camisas/cam4.JPEG", "img/camisas/cam4_1.JPEG"]},
-    {"name": "Tipografía Retro", "images": []},
-    {"name": "Skate Club", "images": []},
-    {"name": "Minimal Line Art", "images": []}
+    {"name": "Kiss Banda", "images": ["img/camisas/cam2.JPEG", "img/camisas/cam2_2.JPEG"]},
+    {"name": "Calavera fuego", "images": ["img/camisas/cam3.JPEG","img/camisas/cam3_2.JPEG"]},
+    {"name": "Berlin", "images": ["img/camisas/cam4.JPEG", "img/camisas/cam4_1.JPEG"]},
+    {"name": "Moto GP", "images": ["img/camisas/cam5.JPEG","img/camisas/cam5_2.JPEG"]},
+    {"name": "Mano grito", "images": ["img/camisas/cam6.JPEG","img/camisas/cam4_1.JPEG"]},
+    {"name": "Minimal Line Art", "images": ["img/camisas/cam7.JPEG","img/camisas/cam7_2.JPEG","img/camisas/cam7_3.JPEG"]},
+    {"name": "Minimal Line Art", "images": ["img/camisas/cam8.JPEG","img/camisas/cam8_2.JPEG"]},
+    {"name": "Minimal Line Art", "images": ["img/camisas/cam9.JPEG","img/camisas/cam9_2.JPEG"]},
+    {"name": "Minimal Line Art", "images": ["img/camisas/cam10.JPEG","img/camisas/cam10_2.JPEG"]}
   ],
   "pocillos": [
     {"name": "Frase Motivacional", "images": []},
