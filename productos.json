@@ -1,9 +1,9 @@
 {
   "camisetas": [
-    {"name": "Calabera Glitter", "images": ["img/camisas/calaberaglitter.JPEG", "img/camisas/calaberaglitter2.JPEG", "img/camisas/calaberaglitter3.JPEG"]},
-    {"name": "Kiss Banda", "images": ["img/camisas/kiss.JPEG"]},
-    {"name": "Calavera fuego", "images": ["img/camisas/calaverafuego.JPEG"]},
-    {"name": "Minimal Line Art", "images": []},
+    {"name": "Calabera Glitter", "images": ["img/camisas/cam1.JPEG", "img/camisas/cam1_2.JPEG", "img/camisas/cam1_3.JPEG"]},
+    {"name": "Kiss Banda", "images": ["img/camisas/cam2.JPEG"]},
+    {"name": "Calavera fuego", "images": ["img/camisas/cam3.JPEG"]},
+    {"name": "Minimal Line Art", "images": ["img/camisas/cam4.JPEG", "img/camisas/cam4_1.JPEG"]},
     {"name": "Tipografía Retro", "images": []},
     {"name": "Skate Club", "images": []},
     {"name": "Minimal Line Art", "images": []}
