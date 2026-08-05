@@ -6,10 +6,12 @@
     {"name": "Berlin", "images": ["img/camisas/cam4.JPEG", "img/camisas/cam4_1.JPEG"]},
     {"name": "Moto GP", "images": ["img/camisas/cam5.JPEG","img/camisas/cam5_2.JPEG"]},
     {"name": "Mano grito", "images": ["img/camisas/cam6.JPEG","img/camisas/cam4_1.JPEG"]},
-    {"name": "Minimal Line Art", "images": ["img/camisas/cam7.JPEG","img/camisas/cam7_2.JPEG","img/camisas/cam7_3.JPEG"]},
-    {"name": "Minimal Line Art", "images": ["img/camisas/cam8.JPEG","img/camisas/cam8_2.JPEG"]},
-    {"name": "Minimal Line Art", "images": ["img/camisas/cam9.JPEG","img/camisas/cam9_2.JPEG"]},
-    {"name": "Minimal Line Art", "images": ["img/camisas/cam10.JPEG","img/camisas/cam10_2.JPEG"]}
+    {"name": "Madara Uchiha", "images": ["img/camisas/cam7.JPEG","img/camisas/cam7_2.JPEG","img/camisas/cam7_3.JPEG"]},
+    {"name": "Wu-Tang", "images": ["img/camisas/cam8.JPEG","img/camisas/cam8_2.JPEG"]},
+    {"name": "Detroit", "images": ["img/camisas/cam9.JPEG","img/camisas/cam9_2.JPEG"]},
+    {"name": "Cypress", "images": ["img/camisas/cam10.JPEG","img/camisas/cam10_2.JPEG"]},
+    {"name": "Rider Style", "images": ["img/camisas/cam11.JPEG","img/camisas/cam11_2.JPEG"]}
+
   ],
   "pocillos": [
     {"name": "Frase Motivacional", "images": []},
