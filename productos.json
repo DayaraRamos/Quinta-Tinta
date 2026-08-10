@@ -10,7 +10,16 @@
     {"name": "Wu-Tang", "images": ["img/camisas/cam8.JPEG","img/camisas/cam8_2.JPEG"]},
     {"name": "Detroit", "images": ["img/camisas/cam9.JPEG","img/camisas/cam9_2.JPEG"]},
     {"name": "Cypress", "images": ["img/camisas/cam10.JPEG","img/camisas/cam10_2.JPEG"]},
-    {"name": "Rider Style", "images": ["img/camisas/cam11.JPEG","img/camisas/cam11_2.JPEG"]}
+    {"name": "Rider Style", "images": ["img/camisas/cam11.JPEG","img/camisas/cam11_2.JPEG"]},
+    {"name": "Bob Marley black", "images": ["img/camisas/cam12.JPEG","img/camisas/cam12_2.JPEG"]},
+    {"name": "alaska Expedition Team", "images": ["img/camisas/cam13.JPEG","img/camisas/cam13_2.JPEG"]},
+    {"name": "Kiss Gene Simmons", "images": ["img/camisas/cam14.JPEG","img/camisas/cam14_2.JPEG"]},
+    {"name": "Guns N' Roses 1", "images": ["img/camisas/cam15.JPEG","img/camisas/cam15_2.JPEG"]},
+    {"name": "Guns N' Roses 2", "images": ["img/camisas/cam16.JPEG","img/camisas/cam16_2.JPEG"]},
+    {"name": "Moto Cross", "images": ["img/camisas/cam17.JPEG","img/camisas/cam17_2.JPEG"]},
+    {"name": "Jujutsu Kaisen Sukuna", "images": ["img/camisas/cam18.JPEG","img/camisas/cam18_2.JPEG","img/camisas/cam18_3.JPEG"]},
+    {"name": "Bob Marley white", "images": ["img/camisas/cam19.JPEG","img/camisas/cam19_2.JPEG"]}
+
 
   ],
   "pocillos": [
