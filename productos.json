@@ -23,7 +23,7 @@
 
   ],
   "pocillos": [
-    {"name": "Frase Motivacional", "images": []},
+    {"name": "Papá", "images": ["img/vasos/vas1.JPEG","img/vasos/vas1_2.JPEG", "img/vasos/vas1_3.JPEG"]},
     {"name": "Café & Letras", "images": []},
     {"name": "Ilustración Botánica", "images": []},
     {"name": "Doble Cara Gradiente", "images": []}
