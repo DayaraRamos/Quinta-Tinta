@@ -149,12 +149,39 @@
 
   /* ---------- HERO ---------- */
   .hero{
-    background:var(--ink);
-    color:var(--text-on-ink);
-    padding:70px 20px 90px;
-    position:relative;
-    overflow:hidden;
-  }
+  background: var(--ink); /* se queda como color de respaldo mientras carga el video */
+  color: var(--text-on-ink);
+  padding: 70px 20px 90px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-video{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  z-index: 0;
+}
+
+.hero-content{
+  position: relative;
+  z-index: 2;
+}
+
+/* opcional: capa oscura encima del video para que el texto se lea mejor */
+.hero::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 1;
+}
   .hero-inner{
     max-width:1200px;margin:0 auto;
     display:grid;
