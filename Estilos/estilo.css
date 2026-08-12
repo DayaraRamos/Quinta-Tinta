@@ -114,7 +114,7 @@
   nav.links button{
     background:var(--magenta);
     border:none;
-    color:var(--text-on-paper);
+    color:var(--paper);
     font-family:'Space Mono',monospace;
     font-size:12px;letter-spacing:0.05em;
     text-transform:uppercase;
@@ -486,7 +486,9 @@ footer b{color:var(--text-on-ink);}
   width:30px;height:30px;
 }
 .hamburger-btn span{
-  display:block;width:100%;height:2px;
+  display:block;
+  width:100%;
+  height:2px;
   background:var(--magenta);
 }
 
@@ -503,7 +505,7 @@ footer b{color:var(--text-on-ink);}
     top:100%;left:0;right:0;
     background:var(--ink);
     border-bottom:3px solid var(--magenta);
-    padding:10px 20px 16px;
+    /* padding:10px 20px 16px; */
     gap:2px;
     max-height:0;
     overflow:hidden;
@@ -513,6 +515,8 @@ footer b{color:var(--text-on-ink);}
     max-height:300px;
   }
   nav.links button{
+    color:var(--text-on-ink);
+    background:none;
     text-align:left;
     padding:12px 8px;
   }
