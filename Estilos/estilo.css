@@ -121,6 +121,7 @@
     padding:8px 12px;
     border-radius:var(--radius);
     transition:background .15s ease;
+    align-items:center;justify-content:center;
   }
   nav.links button:hover{background:var(--magenta);}
   nav.links button.active{background:var(--cyan);color:#fff;}
