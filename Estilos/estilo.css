@@ -112,7 +112,9 @@
 
 
   nav.links button{
-    background:none;border:none;color:var(--text-on-ink);
+    background:var(--magenta);
+    border:none;
+    color:var(--text-on-paper);
     font-family:'Space Mono',monospace;
     font-size:12px;letter-spacing:0.05em;
     text-transform:uppercase;
