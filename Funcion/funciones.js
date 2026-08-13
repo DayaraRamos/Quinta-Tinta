@@ -276,6 +276,11 @@ cargarProductos().then(()=>{
 
 let designCanvas = null;
 
+let canvasStates = {
+  frente: null,
+  espalda: null
+};
+
 let customizerState = {
   product: "camiseta",
   color: "blanco",
@@ -474,8 +479,10 @@ function uploadDesign(file) {
         lockRotation: false
       });
 
+      // AGREGAR EL NUEVO DISEÑO
       designCanvas.add(img);
 
+      // SELECCIONARLO
       designCanvas.setActiveObject(img);
 
       img.setCoords();
@@ -491,14 +498,88 @@ function uploadDesign(file) {
   reader.readAsDataURL(file);
 }
 
+/* =========================================================
+   GUARDAR DISEÑOS DE LA VISTA ACTUAL
+========================================================= */
+
+function saveCurrentCanvasState() {
+
+  if (!designCanvas) return;
+
+  const currentView = customizerState.view;
+
+  canvasStates[currentView] = designCanvas.toJSON();
+
+  console.log(
+    "GUARDADO:",
+    currentView,
+    canvasStates[currentView]
+  );
+}
 
 /* =========================================================
-   CAMBIAR FRENTE / ESPALDA
+   CARGAR DISEÑOS DE UNA VISTA
 ========================================================= */
+
+function loadCanvasState(view) {
+
+  if (!designCanvas) return;
+
+  const state = canvasStates[view];
+
+  // Primero eliminamos lo que esté actualmente en el canvas
+  designCanvas.clear();
+
+  // Si esa vista todavía no tiene diseños
+  if (!state) {
+    designCanvas.renderAll();
+
+    console.log("SIN DISEÑOS EN:", view);
+
+    return;
+  }
+
+  // Cargar exclusivamente los diseños de esa vista
+  designCanvas.loadFromJSON(state, function() {
+
+    designCanvas.renderAll();
+
+    console.log(
+      "CARGADO:",
+      view,
+      "Objetos:",
+      designCanvas.getObjects().length
+    );
+
+  });
+}
+
 
 function changeCustomizerView(view) {
 
+  if (!designCanvas) return;
+
+  // Si ya estamos en esa vista, no hacemos nada
+  if (customizerState.view === view) return;
+
+
+  /* =========================================================
+     1. GUARDAR LA VISTA ACTUAL
+  ========================================================= */
+
+  saveCurrentCanvasState();
+
+
+  /* =========================================================
+     2. CAMBIAR LA VISTA
+  ========================================================= */
+
   customizerState.view = view;
+
+
+  /* =========================================================
+     3. ELEMENTOS DEL MOCKUP
+  ========================================================= */
 
   const mockupImage =
     document.getElementById("mockupImage");
@@ -510,11 +591,10 @@ function changeCustomizerView(view) {
 
 
   /* =========================================================
-     DETERMINAR MOCKUP
+     4. DETERMINAR IMAGEN
   ========================================================= */
 
   let imagePath;
-
 
   if (view === "frente") {
 
@@ -528,14 +608,14 @@ function changeCustomizerView(view) {
 
 
   /* =========================================================
-     CAMBIAR IMAGEN
+     5. CAMBIAR MOCKUP
   ========================================================= */
 
   mockupImage.src = imagePath;
 
 
   /* =========================================================
-     CAMBIAR MÁSCARA
+     6. CAMBIAR MÁSCARA DE COLOR
   ========================================================= */
 
   mockupColorLayer.style.webkitMaskImage =
@@ -546,7 +626,14 @@ function changeCustomizerView(view) {
 
 
   /* =========================================================
-     BOTÓN ACTIVO
+     7. CARGAR SOLAMENTE LOS DISEÑOS DE ESTA VISTA
+  ========================================================= */
+
+  loadCanvasState(view);
+
+
+  /* =========================================================
+     8. BOTÓN ACTIVO
   ========================================================= */
 
   document.querySelectorAll(".view-btn").forEach(button => {
@@ -559,6 +646,9 @@ function changeCustomizerView(view) {
   });
 
 }
+
+
+
 
 
 /* =========================================================
@@ -716,60 +806,60 @@ function changeCustomizerCustomColor(color) {
    FILTROS DE COLOR DEL MOCKUP
 ========================================================= */
 
-/* =========================================================
-   SUBIR DISEÑO A FABRIC.JS
-========================================================= */
+// /* =========================================================
+//    SUBIR DISEÑO A FABRIC.JS
+// ========================================================= */
 
-function uploadDesign(file) {
+// function uploadDesign(file) {
 
-  if (!designCanvas || !file) return;
+//   if (!designCanvas || !file) return;
 
-  const reader = new FileReader();
+//   const reader = new FileReader();
 
-  reader.onload = function(event) {
+//   reader.onload = function(event) {
 
-    fabric.Image.fromURL(event.target.result, function(img) {
+//     fabric.Image.fromURL(event.target.result, function(img) {
 
-      /*
-       * Tamaño inicial del diseño
-       */
+//       /*
+//        * Tamaño inicial del diseño
+//        */
 
-      const maxWidth = designCanvas.getWidth() * 0.45;
-      const maxHeight = designCanvas.getHeight() * 0.45;
+//       const maxWidth = designCanvas.getWidth() * 0.45;
+//       const maxHeight = designCanvas.getHeight() * 0.45;
 
-      const scaleX = maxWidth / img.width;
-      const scaleY = maxHeight / img.height;
+//       const scaleX = maxWidth / img.width;
+//       const scaleY = maxHeight / img.height;
 
-      const scale = Math.min(scaleX, scaleY);
+//       const scale = Math.min(scaleX, scaleY);
 
-      img.set({
-        left: designCanvas.getWidth() / 2,
-        top: designCanvas.getHeight() / 2,
-        originX: "center",
-        originY: "center",
-        scaleX: scale,
-        scaleY: scale,
+//       img.set({
+//         left: designCanvas.getWidth() / 2,
+//         top: designCanvas.getHeight() / 2,
+//         originX: "center",
+//         originY: "center",
+//         scaleX: scale,
+//         scaleY: scale,
 
-        /*
-         * Permitir interacción
-         */
+//         /*
+//          * Permitir interacción
+//          */
 
-        selectable: true,
-        evented: true
-      });
+//         selectable: true,
+//         evented: true
+//       });
 
-      designCanvas.add(img);
+//       designCanvas.add(img);
 
-      designCanvas.setActiveObject(img);
+//       designCanvas.setActiveObject(img);
 
-      designCanvas.renderAll();
+//       designCanvas.renderAll();
 
-    });
+//     });
 
-  };
+//   };
 
-  reader.readAsDataURL(file);
-}
+//   reader.readAsDataURL(file);
+// }
 
 /* =========================================================
    EVENTOS DEL CONFIGURADOR
