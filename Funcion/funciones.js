@@ -294,28 +294,40 @@ function initCustomizer() {
 
   if (!canvasElement) return;
 
-  designCanvas = new fabric.Canvas("designCanvas", {
+  designCanvas = new fabric.Canvas(canvasElement, {
     preserveObjectStacking: true,
-    selection: true
+    selection: true,
+    stopContextMenu: true
   });
 
   resizeDesignCanvas();
 
   const mockupColorLayer =
-  document.getElementById("mockupColorLayer");
+    document.getElementById("mockupColorLayer");
 
-if (mockupColorLayer) {
+  if (mockupColorLayer) {
 
-  mockupColorLayer.style.webkitMaskImage =
-    'url("img/camisas/frente.png")';
+    mockupColorLayer.style.webkitMaskImage =
+      'url("img/camisas/frente.png")';
 
-  mockupColorLayer.style.maskImage =
-    'url("img/camisas/frente.png")';
-
-}
+    mockupColorLayer.style.maskImage =
+      'url("img/camisas/frente.png")';
+  }
 
   window.addEventListener("resize", resizeDesignCanvas);
 
+  // Permitir seleccionar y mover objetos
+  designCanvas.on("object:moving", function(e) {
+    e.target.setCoords();
+  });
+
+  designCanvas.on("object:scaling", function(e) {
+    e.target.setCoords();
+  });
+
+  designCanvas.on("object:rotating", function(e) {
+    e.target.setCoords();
+  });
 }
 
 
@@ -334,10 +346,149 @@ function resizeDesignCanvas() {
   const width = stage.clientWidth;
   const height = stage.clientHeight;
 
-  designCanvas.setWidth(width);
-  designCanvas.setHeight(height);
+  designCanvas.setDimensions({
+    width: width,
+    height: height
+  });
 
   designCanvas.renderAll();
+}
+
+/* =========================================================
+   SUBIR DISEÑO AL CANVAS
+========================================================= */
+
+// function loadDesignToCanvas(file) {
+
+//   if (!designCanvas || !file) return;
+
+//   const reader = new FileReader();
+
+//   reader.onload = function(event) {
+
+//     fabric.Image.fromURL(event.target.result, function(img) {
+
+//       /* ==========================================
+//          LIMPIAR DISEÑO ANTERIOR
+//       ========================================== */
+
+//       designCanvas.clear();
+
+
+//       /* ==========================================
+//          TAMAÑO INICIAL
+//       ========================================== */
+
+//       const maxWidth = designCanvas.getWidth() * 0.45;
+//       const maxHeight = designCanvas.getHeight() * 0.45;
+
+//       const scaleX = maxWidth / img.width;
+//       const scaleY = maxHeight / img.height;
+
+//       const scale = Math.min(scaleX, scaleY);
+
+
+//       img.set({
+//         left: designCanvas.getWidth() / 2,
+//         top: designCanvas.getHeight() / 2,
+//         originX: "center",
+//         originY: "center",
+//         scaleX: scale,
+//         scaleY: scale,
+
+//         cornerColor: "#E91E73",
+//         cornerStrokeColor: "#FFFFFF",
+//         borderColor: "#E91E73",
+//         transparentCorners: false,
+
+//         hasRotatingPoint: true
+//       });
+
+
+//       /* ==========================================
+//          AGREGAR AL CANVAS
+//       ========================================== */
+
+//       designCanvas.add(img);
+
+//       designCanvas.setActiveObject(img);
+
+//       designCanvas.renderAll();
+
+//     });
+
+//   };
+
+//   reader.readAsDataURL(file);
+// }
+
+
+/* =========================================================
+   SUBIR DISEÑO A FABRIC.JS
+========================================================= */
+
+function uploadDesign(file) {
+
+  if (!designCanvas || !file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(event) {
+
+    fabric.Image.fromURL(event.target.result, function(img) {
+
+      const maxWidth = designCanvas.getWidth() * 0.45;
+      const maxHeight = designCanvas.getHeight() * 0.45;
+
+      const scaleX = maxWidth / img.width;
+      const scaleY = maxHeight / img.height;
+
+      const scale = Math.min(scaleX, scaleY);
+
+      img.set({
+        left: designCanvas.getWidth() / 2,
+        top: designCanvas.getHeight() / 2,
+
+        originX: "center",
+        originY: "center",
+
+        scaleX: scale,
+        scaleY: scale,
+
+        selectable: true,
+        evented: true,
+
+        hasControls: true,
+        hasBorders: true,
+
+        cornerColor: "#E6127F",
+        cornerStrokeColor: "#FFFFFF",
+        borderColor: "#E6127F",
+
+        transparentCorners: false,
+
+        lockMovementX: false,
+        lockMovementY: false,
+        lockScalingX: false,
+        lockScalingY: false,
+        lockRotation: false
+      });
+
+      designCanvas.add(img);
+
+      designCanvas.setActiveObject(img);
+
+      img.setCoords();
+
+      designCanvas.renderAll();
+
+    }, {
+      crossOrigin: "anonymous"
+    });
+
+  };
+
+  reader.readAsDataURL(file);
 }
 
 
@@ -565,7 +716,60 @@ function changeCustomizerCustomColor(color) {
    FILTROS DE COLOR DEL MOCKUP
 ========================================================= */
 
+/* =========================================================
+   SUBIR DISEÑO A FABRIC.JS
+========================================================= */
 
+function uploadDesign(file) {
+
+  if (!designCanvas || !file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(event) {
+
+    fabric.Image.fromURL(event.target.result, function(img) {
+
+      /*
+       * Tamaño inicial del diseño
+       */
+
+      const maxWidth = designCanvas.getWidth() * 0.45;
+      const maxHeight = designCanvas.getHeight() * 0.45;
+
+      const scaleX = maxWidth / img.width;
+      const scaleY = maxHeight / img.height;
+
+      const scale = Math.min(scaleX, scaleY);
+
+      img.set({
+        left: designCanvas.getWidth() / 2,
+        top: designCanvas.getHeight() / 2,
+        originX: "center",
+        originY: "center",
+        scaleX: scale,
+        scaleY: scale,
+
+        /*
+         * Permitir interacción
+         */
+
+        selectable: true,
+        evented: true
+      });
+
+      designCanvas.add(img);
+
+      designCanvas.setActiveObject(img);
+
+      designCanvas.renderAll();
+
+    });
+
+  };
+
+  reader.readAsDataURL(file);
+}
 
 /* =========================================================
    EVENTOS DEL CONFIGURADOR
@@ -626,9 +830,6 @@ if (customColorPicker) {
 }
   
 
-  
-
-
   /*
    * Tallas
    */
@@ -658,6 +859,27 @@ if (customColorPicker) {
 
   });
 
+  /* =========================================================
+   SUBIR DISEÑO
+========================================================= */
+
+const designUpload =
+  document.getElementById("designUpload");
+
+if (designUpload) {
+
+  designUpload.addEventListener("change", function() {
+
+    const file = this.files[0];
+
+    if (!file) return;
+
+    uploadDesign(file);
+
+  });
+
+}
+
 
   /*
    * Inicializar Fabric
@@ -666,3 +888,25 @@ if (customColorPicker) {
   initCustomizer();
 
 });
+
+
+/* =========================================================
+   SUBIR DISEÑO
+========================================================= */
+
+// const designUpload =
+//   document.getElementById("designUpload");
+
+// if (designUpload) {
+
+//   designUpload.addEventListener("change", function() {
+
+//     const file = this.files[0];
+
+//     if (!file) return;
+
+//     uploadDesign(file);
+
+//   });
+
+// }
