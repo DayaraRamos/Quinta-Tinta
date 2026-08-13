@@ -286,7 +286,13 @@
   .hero-stampcard li b{color:var(--text-on-paper);font-family:'Space Mono',monospace;}
 
   /* ---------- SECTION HEADERS ---------- */
-  .section{max-width:1200px;margin:0 auto;padding:60px 20px;}
+
+
+  .section{
+    max-width:100%;
+    margin:0 auto;
+    padding:60px 20px;}
+
   .section-head{
     display:flex;align-items:baseline;justify-content:space-between;
     gap:20px;flex-wrap:wrap;
@@ -1286,4 +1292,46 @@ footer b{color:var(--text-on-ink);}
     grid-template-columns: 1fr;
   }
 
+}
+
+/* =========================================================
+   FABRIC.JS - CANVAS INTERACTIVO
+========================================================= */
+
+.mockup-stage .canvas-container {
+  position: absolute !important;
+  inset: 0;
+  z-index: 3 !important;
+}
+
+.mockup-stage .canvas-container .lower-canvas {
+  z-index: 3 !important;
+}
+
+.mockup-stage .canvas-container .upper-canvas {
+  z-index: 999 !important;
+  pointer-events: auto !important;
+}
+
+.deleteDesignBtn{
+  margin-bottom: 30px;
+}
+
+.delete-design-btn {
+  margin-bottom: 20px;
+  padding: 10px 18px;
+  background: transparent;
+  color: #aaa;
+  border: 1px solid #444;
+  font-family: "Space Mono", monospace;
+  font-size: .68rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.delete-design-btn:hover {
+  background: var(--magenta);
+  border-color: var(--magenta);
+  color: white;
 }

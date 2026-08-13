@@ -891,22 +891,55 @@ if (designUpload) {
 
 
 /* =========================================================
-   SUBIR DISEÑO
+   ELIMINAR DISEÑO SELECCIONADO con tecla suprimir o eliminar
 ========================================================= */
 
-// const designUpload =
-//   document.getElementById("designUpload");
+document.addEventListener("keydown", function(e) {
 
-// if (designUpload) {
+  if (!designCanvas) return;
 
-//   designUpload.addEventListener("change", function() {
+  const activeObject = designCanvas.getActiveObject();
 
-//     const file = this.files[0];
+  if (!activeObject) return;
 
-//     if (!file) return;
+  // Evitar borrar mientras se escribe en un input
+  const tag = document.activeElement.tagName;
 
-//     uploadDesign(file);
+  if (tag === "INPUT" || tag === "TEXTAREA") return;
 
-//   });
+  if (e.key === "Delete" || e.key === "Backspace") {
 
-// }
+    designCanvas.remove(activeObject);
+
+    designCanvas.discardActiveObject();
+
+    designCanvas.renderAll();
+
+  }
+
+});
+
+// Funcion de boton eliminar diseño
+
+const deleteDesignBtn = document.getElementById("deleteDesignBtn");
+
+if (deleteDesignBtn) {
+
+  deleteDesignBtn.addEventListener("click", function() {
+
+    if (!designCanvas) return;
+
+    const activeObject = designCanvas.getActiveObject();
+
+    if (!activeObject) {
+      alert("Selecciona un diseño para eliminarlo.");
+      return;
+    }
+
+    designCanvas.remove(activeObject);
+    designCanvas.discardActiveObject();
+    designCanvas.renderAll();
+
+  });
+
+}
