@@ -16,6 +16,7 @@
   body{
     margin:0;
     background:var(--paper);
+    overflow-x:hidden;
     color:var(--text-on-paper);
     font-family:'Work Sans',sans-serif;
     -webkit-font-smoothing:antialiased;
@@ -111,7 +112,7 @@
 
   nav.links button{
     text-align:left;
-    margin-right: 20px;
+    margin-right: 7px;
     background:none;
     background:var(--magenta);
     border:none;
@@ -120,7 +121,7 @@
     font-size:12px;letter-spacing:0.05em;
     text-transform:uppercase;
     padding:8px 25px;
-    border-radius:var(--radius);
+    border-radius:15px;
     transition:background .15s ease;
     align-items:center;justify-content:center;
   }
@@ -291,7 +292,9 @@
   .section{
     max-width:100%;
     margin:0 auto;
-    padding:60px 20px;}
+    padding:60px 20px;
+    
+}
 
   .section-head{
     display:flex;align-items:baseline;justify-content:space-between;
@@ -402,9 +405,8 @@
 
   /* ---------- CONTACT ---------- */
   .contact{
-    background:var(--paper);
     padding:70px 20px;
-  }
+}
   .contact-inner{
     max-width:900px;margin:0 auto;
     text-align:center;
@@ -584,7 +586,6 @@ footer b{color:var(--text-on-ink);}
 
 .customizer-section {
   padding: 11px 6vw;
-  background: var(--paper);
   color: var(--ink);
   position: relative;
   overflow: hidden;
@@ -1334,4 +1335,67 @@ footer b{color:var(--text-on-ink);}
   background: var(--magenta);
   border-color: var(--magenta);
   color: white;
+}
+
+/* =========================================================
+   FONDO ANIMADO - QUINTA TINTA
+========================================================= */
+
+/* body {
+    position: relative;
+    min-height: 100vh;
+} */
+
+/* Patrón repetido */
+.animated-pattern {
+    position: fixed;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-image: url("../img/logo/fondoquintatinta.png");
+    background-repeat: repeat;
+
+    /* Tamaño de cada logo */
+    background-size: 520px auto;
+
+    /* Posición inicial */
+    background-position: 0 0;
+
+    /* Qué tan visible será */
+    opacity: 0.13;
+
+    /* IMPORTANTE */
+    pointer-events: none;
+
+    /* Queda detrás del contenido */
+    z-index: -1;
+
+    /* Movimiento vertical */
+    animation: quintaPatternMove 35s linear infinite;
+}
+
+
+/* Movimiento hacia arriba */
+@keyframes quintaPatternMove {
+
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 0 -520px;
+    }
+
+}
+
+
+/* Accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+
+    .animated-pattern {
+        animation: none;
+    }
+
 }

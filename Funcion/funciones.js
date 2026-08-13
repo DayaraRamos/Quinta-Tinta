@@ -6,7 +6,8 @@
   const CATS = {
     camisetas: { label: "Camisetas", tint: "227,28,121" },   // magenta
     pocillos:  { label: "Pocillos",  tint: "0,169,206" },    // cyan
-    buzos:     { label: "Buzos / Sudaderas", tint: "240,190,0" } // yellow
+    buzos:     { label: "Buzos / Sudaderas", tint: "240,190,0" },
+    crea:      { label: "Crea tu prenda", tint: "240,190,0" } // yellow
   };
 
   const ICONS = {
