@@ -570,3 +570,723 @@ footer b{color:var(--text-on-ink);}
 .lightbox-dots span{width:7px;height:7px;border-radius:50%;background:rgba(0,0,0,.2);}
 .lightbox-dots span.active{background:var(--magenta);}
 .swatch.clickable{cursor:pointer;}
+
+
+/* =========================================================
+   CONFIGURADOR DE PRENDA
+========================================================= */
+
+.customizer-section {
+  padding: 11px 6vw;
+  background: var(--paper);
+  color: var(--ink);
+  position: relative;
+  overflow: hidden;
+}
+
+.customizer-head {
+  max-width: 760px;
+  margin: 0 auto 55px;
+  text-align: center;
+}
+
+.customizer-head .eyebrow {
+  color: var(--magenta);
+}
+
+.customizer-head h2 {
+  margin: 14px 0 12px;
+  font-family: "Anton", sans-serif;
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  line-height: .95;
+  text-transform: uppercase;
+}
+
+.customizer-head h2 span {
+  color: var(--magenta);
+}
+
+.customizer-head p {
+  max-width: 650px;
+  margin: auto;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: #666;
+}
+
+
+/* CONTENEDOR PRINCIPAL */
+
+.customizer {
+  max-width: 1250px;
+  margin: auto;
+
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(350px, .85fr);
+
+  background: var(--ink);
+  color: var(--paper);
+
+  border: 1px solid rgba(255,255,255,.12);
+  box-shadow: 12px 12px 0 var(--magenta);
+}
+
+
+/* =========================================================
+   PREVIEW
+========================================================= */
+
+.custom-preview {
+  min-height: 700px;
+  padding: 30px;
+
+  display: flex;
+  flex-direction: column;
+
+  background:
+    radial-gradient(circle at 30% 20%, rgba(227,28,121,.12), transparent 30%),
+    radial-gradient(circle at 80% 80%, rgba(0,169,206,.10), transparent 30%),
+    #111;
+}
+
+.preview-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.preview-top .mono {
+  font-family: "Space Mono", monospace;
+  font-size: .72rem;
+  letter-spacing: .12em;
+  color: #aaa;
+}
+
+
+/* FRENTE / ESPALDA */
+
+.view-switch {
+  display: flex;
+  gap: 5px;
+  padding: 4px;
+  background: #1d1d1d;
+  border: 1px solid #333;
+}
+
+.view-btn {
+  border: 0;
+  padding: 9px 16px;
+
+  background: transparent;
+  color: #aaa;
+
+  font-family: "Space Mono", monospace;
+  font-size: .72rem;
+
+  cursor: pointer;
+  transition: .2s;
+}
+
+.view-btn:hover {
+  color: white;
+}
+
+.view-btn.active {
+  background: var(--magenta);
+  color: white;
+}
+
+
+/* ZONA DEL MOCKUP */
+
+.mockup-area {
+  flex: 1;
+
+  min-height: 560px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 30px;
+}
+
+.mockup-stage {
+  position: relative;
+
+  width: min(100%, 600px);
+  height: 520px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* MOCKUP */
+
+/* =========================================================
+   MOCKUP + COLOR
+========================================================= */
+
+#mockupImage {
+  position: absolute;
+
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
+
+  object-fit: contain;
+
+  pointer-events: none;
+  user-select: none;
+
+  /* La imagen original no se muestra */
+  opacity: 0;
+}
+
+
+/* =========================================================
+   CAPA DE COLOR DEL MOCKUP
+========================================================= */
+
+#mockupColorLayer {
+  position: absolute;
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
+  background-color: #ffffff;
+
+  /*
+   * La imagen del mockup funciona como máscara.
+   * JavaScript cambiará esta máscara entre
+   * frente.png y espalda.png.
+   */
+
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+
+  -webkit-mask-position: center;
+  mask-position: center;
+
+  -webkit-mask-size: contain;
+  mask-size: contain;
+
+  pointer-events: none;
+
+  transition: background-color .25s ease;
+
+  z-index: 1;
+}
+
+
+/* CANVAS */
+
+#designCanvas {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  pointer-events: auto;
+
+  z-index: 3;
+}
+
+/* TEXTO DE AYUDA */
+
+.preview-help {
+  margin: 0;
+
+  text-align: center;
+
+  font-family: "Space Mono", monospace;
+  font-size: .68rem;
+
+  color: #777;
+}
+
+
+/* =========================================================
+   CONTROLES
+========================================================= */
+
+.custom-controls {
+  padding: 35px;
+
+  background: #181818;
+
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.control-block {
+  border-bottom: 1px solid #303030;
+  padding-bottom: 25px;
+}
+
+.control-label {
+  display: block;
+
+  margin-bottom: 15px;
+
+  font-family: "Space Mono", monospace;
+  font-size: .68rem;
+  letter-spacing: .1em;
+
+  color: #999;
+}
+
+
+/* PRODUCTOS */
+
+.product-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.product-option {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding: 13px;
+
+  border: 1px solid #333;
+  background: #202020;
+
+  color: white;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  transition: .2s;
+}
+
+.product-option:hover {
+  border-color: var(--magenta);
+}
+
+.product-option.active {
+  border-color: var(--magenta);
+  background: rgba(227,28,121,.12);
+}
+
+.option-icon {
+  width: 35px;
+  height: 35px;
+
+  display: grid;
+  place-items: center;
+
+  background: #2b2b2b;
+
+  font-size: 18px;
+}
+
+.product-option strong {
+  display: block;
+  font-size: .9rem;
+}
+
+.product-option small {
+  display: block;
+  margin-top: 2px;
+  color: #777;
+  font-size: .7rem;
+}
+
+.product-option.disabled {
+  opacity: .4;
+  cursor: not-allowed;
+}
+
+
+/* COLORES */
+
+.color-options {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.color-option {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--shirt-color);
+  border: 3px solid transparent;
+  box-shadow:
+    inset 0 0 0 1px rgba(0,0,0,.25);
+  cursor: pointer;
+  transition: .2s;
+}
+
+/* =========================================================
+   COLOR PERSONALIZADO
+========================================================= */
+
+.custom-color-picker {
+  position: relative;
+
+  width: 38px;
+  height: 38px;
+}
+
+
+/* INPUT REAL */
+
+#customColorPicker {
+  position: absolute;
+
+  width: 1px;
+  height: 1px;
+
+  opacity: 0;
+}
+
+
+/* BOTÓN VISUAL */
+
+.custom-color-picker label {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  border: 2px dashed #777;
+
+  background: #202020;
+
+  color: #aaa;
+
+  cursor: pointer;
+
+  transition: .2s;
+}
+
+
+.custom-color-picker label span {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+
+.custom-color-picker label small {
+  display: none;
+}
+
+
+.custom-color-picker label:hover {
+  border-color: var(--magenta);
+
+  color: white;
+
+  transform: scale(1.1);
+}
+
+
+/* CUANDO HAY UN COLOR PERSONALIZADO */
+
+.custom-color-picker.active label {
+  border: 3px solid white;
+
+  box-shadow:
+    0 0 0 2px var(--magenta);
+}
+
+.color-option:hover {
+  transform: scale(1.1);
+}
+
+.color-option.active {
+  border-color: white;
+
+  box-shadow:
+    0 0 0 2px var(--magenta),
+    inset 0 0 0 1px rgba(0,0,0,.25);
+}
+
+
+/* =========================================================
+   COLOR PICKER - COLOR SELECCIONADO
+========================================================= */
+
+.custom-color-picker label {
+  position: relative;
+
+  overflow: hidden;
+}
+
+
+/* Círculo que muestra el color elegido */
+
+.custom-color-picker label::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 3px;
+
+  border-radius: 50%;
+
+  background: #202020;
+
+  transition: .2s;
+}
+
+
+/* Símbolo + */
+
+.custom-color-picker label span {
+  position: relative;
+
+  z-index: 2;
+
+  font-size: 1.2rem;
+
+  line-height: 1;
+
+  color: #aaa;
+}
+
+
+/* Cuando se selecciona un color */
+
+.custom-color-picker.active label {
+  border-color: white;
+
+  box-shadow:
+    0 0 0 2px var(--magenta),
+    inset 0 0 0 1px rgba(0,0,0,.25);
+}
+
+/* SUBIR DISEÑO */
+
+.upload-design {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding: 17px;
+
+  border: 1px dashed #555;
+
+  background: #202020;
+
+  cursor: pointer;
+
+  transition: .2s;
+}
+
+.upload-design:hover {
+  border-color: var(--magenta);
+  background: rgba(227,28,121,.08);
+}
+
+.upload-icon {
+  width: 42px;
+  height: 42px;
+
+  display: grid;
+  place-items: center;
+
+  background: var(--magenta);
+
+  color: white;
+
+  font-size: 1.5rem;
+}
+
+.upload-design strong {
+  display: block;
+  font-size: .9rem;
+}
+
+.upload-design small {
+  display: block;
+  margin-top: 4px;
+  color: #777;
+  font-size: .7rem;
+}
+
+
+/* TALLAS */
+
+.size-options {
+  display: flex;
+  gap: 7px;
+}
+
+.size-option {
+  flex: 1;
+
+  min-width: 45px;
+
+  padding: 12px 8px;
+
+  background: #202020;
+
+  color: white;
+
+  border: 1px solid #444;
+
+  font-family: "Space Mono", monospace;
+
+  cursor: pointer;
+
+  transition: .2s;
+}
+
+.size-option:hover {
+  border-color: var(--magenta);
+}
+
+.size-option.active {
+  background: var(--magenta);
+  border-color: var(--magenta);
+}
+
+
+/* =========================================================
+   RESUMEN
+========================================================= */
+
+.custom-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 10px;
+
+  padding-top: 5px;
+}
+
+.custom-summary div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.custom-summary span {
+  font-family: "Space Mono", monospace;
+  font-size: .62rem;
+  color: #777;
+  text-transform: uppercase;
+}
+
+.custom-summary strong {
+  font-size: .8rem;
+}
+
+
+/* BOTÓN */
+
+.custom-add-btn {
+  width: 100%;
+
+  padding: 17px 20px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background: var(--magenta);
+  color: white;
+
+  border: none;
+
+  font-family: "Space Mono", monospace;
+  font-size: .78rem;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: .2s;
+}
+
+.custom-add-btn:hover {
+  background: #ff248d;
+  transform: translateY(-2px);
+}
+
+.custom-add-btn span {
+  font-size: 1.3rem;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .customizer {
+    grid-template-columns: 1fr;
+  }
+
+  .custom-preview {
+    min-height: 600px;
+  }
+
+  .mockup-area {
+    min-height: 480px;
+  }
+
+  .custom-controls {
+    padding: 28px;
+  }
+
+}
+
+
+@media (max-width: 600px) {
+
+  .customizer-section {
+    padding: 80px 5vw;
+  }
+
+  .custom-preview {
+    padding: 20px;
+  }
+
+  .preview-top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .view-switch {
+    width: 100%;
+  }
+
+  .view-btn {
+    flex: 1;
+  }
+
+  .mockup-area {
+    padding: 10px;
+    min-height: 420px;
+  }
+
+  .mockup-stage {
+    height: 400px;
+  }
+
+  .custom-controls {
+    padding: 22px;
+  }
+
+  .custom-summary {
+    grid-template-columns: 1fr;
+  }
+
+}

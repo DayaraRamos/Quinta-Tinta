@@ -269,3 +269,400 @@ cargarProductos().then(()=>{
   updateCartCount();
   updateWaLinks();
 });
+
+/* =========================================================
+   CONFIGURADOR DE PRENDA - FABRIC.JS
+========================================================= */
+
+let designCanvas = null;
+
+let customizerState = {
+  product: "camiseta",
+  color: "blanco",
+  size: "M",
+  view: "frente"
+};
+
+
+/* =========================================================
+   INICIALIZAR FABRIC
+========================================================= */
+
+function initCustomizer() {
+
+  const canvasElement = document.getElementById("designCanvas");
+
+  if (!canvasElement) return;
+
+  designCanvas = new fabric.Canvas("designCanvas", {
+    preserveObjectStacking: true,
+    selection: true
+  });
+
+  resizeDesignCanvas();
+
+  const mockupColorLayer =
+  document.getElementById("mockupColorLayer");
+
+if (mockupColorLayer) {
+
+  mockupColorLayer.style.webkitMaskImage =
+    'url("img/camisas/frente.png")';
+
+  mockupColorLayer.style.maskImage =
+    'url("img/camisas/frente.png")';
+
+}
+
+  window.addEventListener("resize", resizeDesignCanvas);
+
+}
+
+
+/* =========================================================
+   AJUSTAR CANVAS
+========================================================= */
+
+function resizeDesignCanvas() {
+
+  if (!designCanvas) return;
+
+  const stage = document.getElementById("mockupStage");
+
+  if (!stage) return;
+
+  const width = stage.clientWidth;
+  const height = stage.clientHeight;
+
+  designCanvas.setWidth(width);
+  designCanvas.setHeight(height);
+
+  designCanvas.renderAll();
+}
+
+
+/* =========================================================
+   CAMBIAR FRENTE / ESPALDA
+========================================================= */
+
+function changeCustomizerView(view) {
+
+  customizerState.view = view;
+
+  const mockupImage =
+    document.getElementById("mockupImage");
+
+  const mockupColorLayer =
+    document.getElementById("mockupColorLayer");
+
+  if (!mockupImage || !mockupColorLayer) return;
+
+
+  /* =========================================================
+     DETERMINAR MOCKUP
+  ========================================================= */
+
+  let imagePath;
+
+
+  if (view === "frente") {
+
+    imagePath = "img/camisas/frente.png";
+
+  } else {
+
+    imagePath = "img/camisas/espalda.png";
+
+  }
+
+
+  /* =========================================================
+     CAMBIAR IMAGEN
+  ========================================================= */
+
+  mockupImage.src = imagePath;
+
+
+  /* =========================================================
+     CAMBIAR MÁSCARA
+  ========================================================= */
+
+  mockupColorLayer.style.webkitMaskImage =
+    `url("${imagePath}")`;
+
+  mockupColorLayer.style.maskImage =
+    `url("${imagePath}")`;
+
+
+  /* =========================================================
+     BOTÓN ACTIVO
+  ========================================================= */
+
+  document.querySelectorAll(".view-btn").forEach(button => {
+
+    button.classList.toggle(
+      "active",
+      button.dataset.view === view
+    );
+
+  });
+
+}
+
+
+/* =========================================================
+   CAMBIAR COLOR
+========================================================= */
+
+function changeCustomizerColor(color) {
+
+  customizerState.color = color;
+
+  const mockupColorLayer =
+    document.getElementById("mockupColorLayer");
+
+  if (!mockupColorLayer) return;
+
+
+  /* =========================================================
+     COLORES EXACTOS
+  ========================================================= */
+
+  const colors = {
+
+    blanco: "#FFFFFF",
+    negro: "#171717",
+    rosado: "#E91E73",
+    morado: "#7135C9",
+    azul: "#2878C8"
+
+  };
+
+
+  const selectedColor = colors[color];
+
+  if (!selectedColor) return;
+
+
+  /* =========================================================
+     APLICAR COLOR
+  ========================================================= */
+
+  mockupColorLayer.style.backgroundColor =
+    selectedColor;
+
+
+  /* =========================================================
+     BOTÓN ACTIVO
+  ========================================================= */
+
+  document.querySelectorAll(".color-option").forEach(button => {
+
+    button.classList.toggle(
+      "active",
+      button.dataset.color === color
+    );
+
+  });
+
+
+  /* =========================================================
+     ACTUALIZAR RESUMEN
+  ========================================================= */
+
+  const summaryColor =
+    document.getElementById("summaryColor");
+
+  if (summaryColor) {
+
+    const names = {
+
+      blanco: "Blanco",
+      negro: "Negro",
+      rosado: "Rosado",
+      morado: "Morado",
+      azul: "Azul"
+
+    };
+
+    summaryColor.textContent =
+      names[color];
+
+  }
+
+}
+
+function changeCustomizerCustomColor(color) {
+
+  customizerState.color = color;
+
+  const mockupColorLayer =
+    document.getElementById("mockupColorLayer");
+
+  if (!mockupColorLayer) return;
+
+
+  /* =========================================================
+     APLICAR COLOR PERSONALIZADO
+  ========================================================= */
+
+  mockupColorLayer.style.backgroundColor = color;
+
+
+  /* =========================================================
+     QUITAR ACTIVE DE LOS COLORES NORMALES
+  ========================================================= */
+
+  document
+    .querySelectorAll(".color-option")
+    .forEach(button => {
+
+      button.classList.remove("active");
+
+    });
+
+
+  /* =========================================================
+     ACTIVAR SELECTOR PERSONALIZADO
+  ========================================================= */
+
+  const customColorPickerBox =
+    document.querySelector(".custom-color-picker");
+
+  if (customColorPickerBox) {
+
+    customColorPickerBox.classList.add("active");
+
+    const label =
+      customColorPickerBox.querySelector("label");
+
+    if (label) {
+
+      label.style.backgroundColor = color;
+
+    }
+
+  }
+
+
+  /* =========================================================
+     ACTUALIZAR RESUMEN
+  ========================================================= */
+
+  const summaryColor =
+    document.getElementById("summaryColor");
+
+  if (summaryColor) {
+
+    summaryColor.textContent = color.toUpperCase();
+
+  }
+
+}
+
+
+/* =========================================================
+   FILTROS DE COLOR DEL MOCKUP
+========================================================= */
+
+
+
+/* =========================================================
+   EVENTOS DEL CONFIGURADOR
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+  /*
+   * Frente / espalda
+   */
+
+  document.querySelectorAll(".view-btn").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      changeCustomizerView(button.dataset.view);
+
+    });
+
+  });
+
+
+  /*
+   * Colores
+   */
+
+  document.querySelectorAll(".color-option").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      changeCustomizerColor(button.dataset.color);
+
+    });
+
+  });
+
+  /*
+ * COLOR PERSONALIZADO
+ */
+
+const customColorPicker =
+  document.getElementById("customColorPicker");
+
+const customColorPickerBox =
+  document.querySelector(".custom-color-picker");
+
+
+if (customColorPicker) {
+
+  customColorPicker.addEventListener("input", () => {
+
+    const color = customColorPicker.value;
+
+    changeCustomizerCustomColor(color);
+
+  });
+
+}
+  
+
+  
+
+
+  /*
+   * Tallas
+   */
+
+  document.querySelectorAll(".size-option").forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      document
+        .querySelectorAll(".size-option")
+        .forEach(btn => btn.classList.remove("active"));
+
+      button.classList.add("active");
+
+      customizerState.size = button.textContent.trim();
+
+      const summarySize = document.getElementById("summarySize");
+
+      if (summarySize) {
+
+        summarySize.textContent =
+          customizerState.size;
+
+      }
+
+    });
+
+  });
+
+
+  /*
+   * Inicializar Fabric
+   */
+
+  initCustomizer();
+
+});
