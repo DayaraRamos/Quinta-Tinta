@@ -150,6 +150,8 @@
     font-size:11px;
   }
 
+ 
+
   /* ---------- HERO ---------- */
   .hero{
   background: var(--ink); /* se queda como color de respaldo mientras carga el video */
@@ -158,6 +160,16 @@
   position: relative;
   overflow: hidden;
 }
+
+  #particles-js{
+  margin: 0;
+  position:absolute;
+  inset:0;
+  z-index:0;
+  width:100%;
+  height:100%;
+}
+
 
 .hero-video{
   position: absolute;
@@ -223,6 +235,8 @@
     border:1.5px solid transparent;
     transition:transform .12s ease, background .15s ease;
   }
+
+
   .btn:active{transform:scale(0.96);}
   .btn-primary{
     text-decoration:none;
@@ -516,10 +530,11 @@ footer b{color:var(--text-on-ink);}
     max-height:300px;
   }
   nav.links button{
+    margin-right: 20px;
     color:var(--text-on-ink);
     background:none;
     text-align:left;
-    padding:12px 8px;
+    padding:8px 25px;
   }
 }
   @media (prefers-reduced-motion:reduce){

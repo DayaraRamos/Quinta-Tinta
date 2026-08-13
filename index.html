@@ -36,9 +36,7 @@
 </header>
 
 <section class="hero" id="inicio">
-  <video class="hero-video" autoplay muted loop playsinline>
-    <source src="img/videos/fondovideo.mp4" type="video/mp4">
-  </video>
+  <div id="particles-js"></div>
   <div class="hero-inner">
     <div>
       <div class="eyebrow"><span class="reg"><span class="reg-circle"></span></span> Taller de estampados · hecho a pedido</div>
@@ -57,7 +55,8 @@
         <li><b>03</b> Envía tu pedido por WhatsApp</li>
         <li><b>04</b> Confirmamos tallas, colores y tiempos</li>
       </ul>
-    </div>
+    
+  </div>
   </div>
 </section>
 
@@ -70,7 +69,9 @@
 </div>
 
 <section class="section" id="galeria">
+  
   <div class="section-head">
+    
     <h2>Catálogo</h2>
     <span class="mono" id="resultCount">12 diseños</span>
   </div>
@@ -137,6 +138,121 @@
   </div>
 </div>
 
+<script src="particles.min.js"></script>
+<script>  
+  particlesJS(
+    {
+  "particles": {
+    "number": {
+      "value": 63,
+      "density": {
+        "enable": true,
+        "value_area": 721.5354273894853
+      }
+    },
+    "color": {
+      "value": "#358bcb"
+    },
+    "shape": {
+      "type": "circle",
+      "stroke": {
+        "width": 0,
+        "color": "#ffffff"
+      },
+      "polygon": {
+        "nb_sides": 5
+      },
+      "image": {
+        "src": "img/github.svg",
+        "width": 100,
+        "height": 100
+      }
+    },
+    "opacity": {
+      "value": 0.5,
+      "random": false,
+      "anim": {
+        "enable": false,
+        "speed": 1,
+        "opacity_min": 0.1,
+        "sync": false
+      }
+    },
+    "size": {
+      "value": 10,
+      "random": true,
+      "anim": {
+        "enable": false,
+        "speed": 46.288401101176675,
+        "size_min": 7.308694910712106,
+        "sync": false
+      }
+    },
+    "line_linked": {
+      "enable": true,
+      "distance": 208.44356791251798,
+      "color": "#358bcb",
+      "opacity": 0.5692112816072606,
+      "width": 1.2827296486924182
+    },
+    "move": {
+      "enable": true,
+      "speed": 9.620472365193136,
+      "direction": "none",
+      "random": false,
+      "straight": false,
+      "out_mode": "out",
+      "bounce": false,
+      "attract": {
+        "enable": false,
+        "rotateX": 400.8530152163807,
+        "rotateY": 1200
+      }
+    }
+  },
+  "interactivity": {
+    "detect_on": "canvas",
+    "events": {
+      "onhover": {
+        "enable": true,
+        "mode": "repulse"
+      },
+      "onclick": {
+        "enable": true,
+        "mode": "repulse"
+      },
+      "resize": true
+    },
+    "modes": {
+      "grab": {
+        "distance": 194.89853095232286,
+        "line_linked": {
+          "opacity": 1
+        }
+      },
+      "bubble": {
+        "distance": 633.4202255950493,
+        "size": 211.14007519834973,
+        "duration": 2.1926084732136317,
+        "opacity": 8,
+        "speed": 3
+      },
+      "repulse": {
+        "distance": 316.7101127975246,
+        "duration": 0.4
+      },
+      "push": {
+        "particles_nb": 4
+      },
+      "remove": {
+        "particles_nb": 2
+      }
+    }
+  },
+  "retina_detect": true
+}
+  )
+</script>
 <script src="Funcion/funciones.js"></script>
 
 </body>
