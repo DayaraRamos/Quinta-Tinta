@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Contacto - Quinta Tinta</title>
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+<link rel="icon" type="image/png" href="img/logo/QTlogo.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="Estilos/estilo.css">
+<link rel="stylesheet" href="Estilos/contacto.css">
+
+</head>
+
+<body>
+
+<!-- =========================
+     FONDO ANIMADO
+========================= -->
+
+<div class="animated-pattern"></div>
+
+
+<!-- =========================
+     HEADER
+========================= -->
+
+<header>
+
+  <div class="nav-wrap">
+
+    <div class="quinta" id="quintaTinta">
+
+      <a href="index.html">
+
+        <img
+          src="img/logo/QTlogo.png"
+          alt="Quinta Tinta"
+          class="quinta-logo"
+        >
+
+      </a>
+
+      <span class="quinta-text">
+        QUINTA&nbsp;TINTA
+      </span>
+
+    </div>
+
+
+    <nav class="links" id="navLinks">
+
+      <button onclick="location.href='index.html'">
+        Inicio
+      </button>
+
+      <button onclick="location.href='index.html#galeria'">
+        Camisetas
+      </button>
+
+      <button onclick="location.href='index.html#galeria'">
+        Pocillos
+      </button>
+
+      <button onclick="location.href='index.html#galeria'">
+        Buzos
+      </button>
+
+      <button onclick="location.href='index.html#disena'">
+        Crea tu prenda
+      </button>
+
+      <button class="active">
+        Contacto
+      </button>
+
+    </nav>
+
+
+    <button
+      class="hamburger-btn"
+      onclick="toggleMobileMenu()"
+      aria-label="Abrir menú"
+    >
+
+      <span></span>
+      <span></span>
+      <span></span>
+
+    </button>
+
+
+    <button
+      class="cart-btn"
+      onclick="location.href='index.html'"
+    >
+
+      Volver
+
+    </button>
+
+  </div>
+
+</header>
+
+
+
+<!-- =========================
+     CONTACTO
+========================= -->
+
+<main class="contact-page">
+
+
+  <!-- HERO CONTACTO -->
+
+  <section class="contact-hero">
+
+    <div class="contact-hero-inner">
+
+      <span class="eyebrow">
+
+        <span class="reg">
+          <span class="reg-circle"></span>
+        </span>
+
+        Estamos para ayudarte
+
+      </span>
+
+
+      <h1>
+        Hablemos de<br>
+        tu <span>idea.</span>
+      </h1>
+
+
+      <p>
+        ¿Tienes una idea para estampar?
+        Escríbenos y uno de nuestros asesores
+        te ayudará a convertirla en una prenda.
+      </p>
+
+
+      <div class="contact-main-buttons">
+
+        <a
+          href="contacto.html#contacto"
+          target="_blank"
+          rel="noopener"
+          class="contact-primary-btn"
+        >
+
+          Escribir por WhatsApp
+          <span>→</span>
+
+        </a>
+
+
+        <a
+          href="index.html"
+          class="contact-secondary-btn"
+        >
+
+          Ver catálogo
+
+        </a>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================
+       ASESORES
+  ========================= -->
+
+  <section class="advisors-section" id="contacto">
+
+    <div class="section-title">
+
+      <div>
+
+        <span class="section-number">
+          01 · CONTACTO
+        </span>
+
+        <h2>
+          Nuestros<br>
+          <span>asesores.</span>
+        </h2>
+
+      </div>
+
+
+      <p>
+        Estamos disponibles para resolver tus dudas,
+        ayudarte con tu diseño y orientarte con tu pedido.
+      </p>
+
+    </div>
+
+
+
+    <div class="advisors-grid">
+
+
+      <!-- ASESOR 01 -->
+
+      <article class="advisor-card">
+
+        <div class="advisor-number">
+          01
+        </div>
+
+        <div class="advisor-avatar">
+          👤
+        </div>
+
+        <div class="advisor-info">
+
+          <span class="advisor-role">
+            ASESOR · VENTAS
+          </span>
+
+          <h3>
+            Joel Gomez
+          </h3>
+
+          <p>
+            Te ayudamos con información,
+            precios y disponibilidad.
+          </p>
+
+        </div>
+
+
+        <a
+          href="#"
+          class="advisor-whatsapp"
+          target="_blank"
+          rel="noopener"
+        >
+
+          WhatsApp
+
+          <span>↗</span>
+
+        </a>
+
+      </article>
+
+
+
+      <!-- ASESOR 02 -->
+
+      <article class="advisor-card">
+
+        <div class="advisor-number">
+          02
+        </div>
+
+
+        <div class="advisor-avatar">
+          👤
+        </div>
+
+
+        <div class="advisor-info">
+
+          <span class="advisor-role">
+            ASESOR · PERSONALIZADOS
+          </span>
+
+          <h3>
+            Cristina Coronado
+          </h3>
+
+          <p>
+            Te orientamos con tus diseños
+            y opciones de personalización.
+          </p>
+
+        </div>
+
+
+        <a
+          href="#"
+          class="advisor-whatsapp"
+          target="_blank"
+          rel="noopener"
+        >
+
+          WhatsApp
+
+          <span>↗</span>
+
+        </a>
+
+      </article>
+
+
+
+      <!-- ASESOR 03 -->
+
+      <article class="advisor-card">
+
+        <div class="advisor-number">
+          03
+        </div>
+
+
+        <div class="advisor-avatar">
+          👤
+        </div>
+
+
+        <div class="advisor-info">
+
+          <span class="advisor-role">
+            ASESOR · PEDIDOS
+          </span>
+
+          <h3>
+            William Gomez
+          </h3>
+
+          <p>
+            Te ayudamos a confirmar tu pedido,
+            tallas, colores y tiempos.
+          </p>
+
+        </div>
+
+
+        <a
+          href="#"
+          class="advisor-whatsapp"
+          target="_blank"
+          rel="noopener"
+        >
+
+          WhatsApp
+
+          <span>↗</span>
+
+        </a>
+
+      </article>
+
+
+    </div>
+
+  </section>
+
+
+
+  <!-- =========================
+       UBICACIÓN
+  ========================= -->
+
+  <section class="location-section">
+
+    <div class="location-inner">
+
+
+      <div class="location-info">
+
+        <span class="section-number">
+          02 · ENCUÉNTRANOS
+        </span>
+
+
+        <h2>
+          Visítanos<br>
+          en nuestro <span>punto.</span>
+        </h2>
+
+
+        <p class="location-description">
+          También puedes visitarnos directamente.
+          Estamos listos para atenderte y ayudarte
+          a elegir la mejor opción para tu proyecto.
+        </p>
+
+
+        <div class="location-data">
+
+
+          <div class="location-item">
+
+            <span class="location-icon">
+              +
+            </span>
+
+            <div>
+
+              <small>
+                DIRECCIÓN
+              </small>
+
+              <strong>
+                Cra 3 #2-57, Mosquera, Cundinamarca
+              </strong>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="location-item">
+
+            <span class="location-icon">
+              +
+            </span>
+
+            <div>
+
+              <small>
+                HORARIO
+              </small>
+
+              <strong>
+                Lunes — Sábado
+              </strong>
+
+              <span>
+                8:00 AM — 6:00 PM
+              </span>
+
+            </div>
+
+          </div>
+
+
+
+          <div class="location-item">
+
+            <span class="location-icon">
+              +
+            </span>
+
+            <div>
+
+              <small>
+                CIUDAD
+              </small>
+
+              <strong>
+                Mosquera, Cundinamarca
+              </strong>
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+        <a
+        href="https://www.google.com/maps/search/?api=1&query=Quinta+Tinta%2C+Cra.+3+%232-57%2C+Mosquera%2C+Cundinamarca"
+
+          target="_blank"
+          rel="noopener"
+          class="map-button"
+        >
+
+          Abrir en Google Maps
+          <span>↗</span>
+
+        </a>
+
+      </div>
+
+
+
+      <!-- MAPA -->
+
+
+<!-- =========================
+     MAPA
+========================= -->
+
+<div class="map-container">
+
+    <div id="map"></div>
+
+    <a
+        href="https://www.google.com/maps/search/?api=1&query=Quinta+Tinta%2C+Cra.+3+%232-57%2C+Mosquera%2C+Cundinamarca"
+        target="_blank"
+        rel="noopener"
+        class="map-button"
+    >
+        Ver en Google Maps →
+    </a>
+
+</div>
+    </div>
+  </section>
+
+
+
+  <!-- =========================
+       CTA
+  ========================= -->
+
+  <section class="contact-cta">
+
+    <span class="section-number">
+      03 · ¿LISTO?
+    </span>
+
+    <h2>
+      Hagamos algo<br>
+      <span>increíble.</span>
+    </h2>
+
+    <p>
+      Cuéntanos qué tienes en mente
+      y empecemos a darle forma.
+    </p>
+
+
+    <a
+      href="contacto.html#contacto"
+      target="_blank"
+      rel="noopener"
+      class="contact-primary-btn"
+    >
+
+      Hablar por WhatsApp
+
+      <span>→</span>
+
+    </a>
+
+  </section>
+
+
+</main>
+
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+
+    <footer>
+  <div class="footer-inner">
+    <p><b>Quinta Tinta</b> — estampados y diseños hechos a pedido</p>
+    <div class="footer-social">
+      <a href="contacto.html#contacto" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.6 0-3.1-.42-4.4-1.16l-.32-.18-3 .79.8-2.92-.2-.3A7.94 7.94 0 014 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8zm4.4-5.6c-.24-.12-1.43-.7-1.65-.79-.22-.08-.38-.12-.54.12-.16.24-.62.79-.76.95-.14.16-.28.18-.52.06-.24-.12-1.01-.37-1.92-1.18-.71-.63-1.19-1.41-1.33-1.65-.14-.24-.01-.37.11-.49.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.19-.46-.39-.4-.54-.4-.14 0-.3-.02-.46-.02s-.42.06-.64.3c-.22.24-.84.82-.84 2s.86 2.32.98 2.48c.12.16 1.7 2.6 4.12 3.64.58.25 1.03.4 1.38.51.58.18 1.11.16 1.53.1.47-.07 1.43-.58 1.63-1.15.2-.56.2-1.04.14-1.15-.06-.1-.22-.16-.46-.28z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/quinta_tinta_wmcdj?igsh=MXI5OXFvcHE1djl3YQ==" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+      </a>
+      <a href="https://www.tiktok.com/@quinta.tinta.wmcd?_r=1&_t=ZS-98TsbgsOQrZ" target="_blank" rel="noopener" aria-label="TikTok">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M16.6 5.82s.51.5 0 0A4.278 4.278 0 0115.54 3h-3.09v12.4a2.592 2.592 0 01-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 004.3 1.38V7.3s-1.88.09-3.24-1.48z"/></svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+
+
+<!-- =========================
+     WHATSAPP
+========================= -->
+
+<a
+  class="wa-fab"
+  href="contacto.html#contacto"
+  target="_blank"
+  rel="noopener"
+  aria-label="Escribir por WhatsApp"
+>
+
+  <svg
+    width="28"
+    height="28"
+    viewBox="0 0 24 24"
+    fill="#fff"
+  >
+
+    <path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2z"/>
+
+  </svg>
+
+</a>
+
+
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="Funcion/contacto.js"></script>
+</body>
+</html>
