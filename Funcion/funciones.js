@@ -2032,3 +2032,34 @@ if (deleteDesignBtn) {
   });
 
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const params = new URLSearchParams(window.location.search);
+    const categoria = params.get("categoria");
+
+    if (!categoria) return;
+
+    if (categoria === "crea") {
+
+        const seccion = document.getElementById("disena");
+
+        if (seccion) {
+            seccion.scrollIntoView({
+                behavior: "smooth",
+                block: "start"
+            });
+        }
+
+        return;
+    }
+
+    if (
+        categoria === "camisetas" ||
+        categoria === "pocillos" ||
+        categoria === "buzos"
+    ) {
+        filterAndScroll(categoria);
+    }
+
+});
