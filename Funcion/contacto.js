@@ -1,42 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-    const mapElement = document.getElementById("map");
+    const hamburgerBtn = document.getElementById("hamburgerBtn");
+    const navLinks = document.getElementById("navLinks");
 
-    if (!mapElement) return;
+    if (!hamburgerBtn || !navLinks) return;
 
-    // Coordenadas del punto de Quinta Tinta
-    const quintaTinta = [4.7076, -74.2301];
+    hamburgerBtn.addEventListener("click", () => {
 
-    // Crear mapa
-    const map = L.map("map", {
-        scrollWheelZoom: false
-    }).setView(quintaTinta, 17);
+        navLinks.classList.toggle("active");
 
-    // Mapa base OpenStreetMap
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        const isOpen = navLinks.classList.contains("active");
 
-        attribution: "&copy; OpenStreetMap contributors",
+        hamburgerBtn.setAttribute("aria-expanded", isOpen);
 
-        maxZoom: 19
-
-    }).addTo(map);
-
-
-    // Marcador
-    const marker = L.marker(quintaTinta).addTo(map);
-
-
-    // Información del punto
-    marker.bindPopup(`
-        <strong>Quinta Tinta</strong><br>
-        Cra. 3 #2-57<br>
-        Mosquera, Cundinamarca
-    `).openPopup();
-
-
-    // Corregir el tamaño del mapa después de cargar
-    setTimeout(() => {
-        map.invalidateSize();
-    }, 300);
+    });
 
 });
+
+function toggleMobileMenu() {
+    const nav = document.getElementById("navLinks");
+
+    if (!nav) return;
+
+    nav.classList.toggle("active");
+}

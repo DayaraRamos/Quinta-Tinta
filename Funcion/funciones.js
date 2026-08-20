@@ -1,5 +1,5 @@
 // ====== CONFIGURA AQUÍ ======
-  const WHATSAPP_NUMBER = "573108240839"; // TODO: reemplaza por tu número real (código país + número, sin +)
+  const WHATSAPP_NUMBER = "573103492858"; // TODO: reemplaza por tu número real (código país + número, sin +)
   const STORE_NAME = "Quinta Tinta";
   // =============================
 
@@ -32,6 +32,26 @@ async function cargarProductos(){
   let activeFilter = "todos";
   let order = {}; // id -> {product, qty}
   let imgIndex = {}; // id de producto -> índice de la foto actual
+
+  // =========================================================
+// PEDIDOS PERSONALIZADOS diseño
+// =========================================================
+
+function generarReferenciaPersonalizada() {
+
+  let contador = parseInt(
+    localStorage.getItem("qtCustomCounter") || "0"
+  );
+
+  contador++;
+
+  localStorage.setItem(
+    "qtCustomCounter",
+    contador
+  );
+
+  return `QT-CAM-PER-${String(contador).padStart(3, "0")}`;
+}
 
   
   function pattern(cat, seed){
@@ -136,6 +156,300 @@ function toggleBrandReveal(){
     renderDrawer();
   }
 
+  // =========================================================
+// AGREGAR PRENDA PERSONALIZADA AL PEDIDO
+// =========================================================
+
+// =========================================================
+// AGREGAR PRENDA PERSONALIZADA AL PEDIDO
+// =========================================================
+
+// =========================================================
+// AGREGAR PRENDA PERSONALIZADA AL PEDIDO
+// =========================================================
+
+async function addCustomProductToOrder() {
+
+  // =====================================================
+  // GUARDAR VISTA ORIGINAL
+  // =====================================================
+
+  const vistaOriginal = customizerState.view;
+
+
+  // =====================================================
+  // VERIFICAR FABRIC
+  // =====================================================
+
+  if (!designCanvas) {
+
+    alert(
+      "El personalizador todavía no está listo."
+    );
+
+    return;
+  }
+
+
+  // =====================================================
+  // GUARDAR VISTA ACTUAL
+  // =====================================================
+
+  saveCurrentCanvasState();
+
+
+  // =====================================================
+  // VERIFICAR DISEÑOS
+  // =====================================================
+
+  const tieneFrente =
+    canvasStates.frente &&
+    canvasStates.frente.objects &&
+    canvasStates.frente.objects.length > 0;
+
+  const tieneEspalda =
+    canvasStates.espalda &&
+    canvasStates.espalda.objects &&
+    canvasStates.espalda.objects.length > 0;
+
+
+  if (!tieneFrente && !tieneEspalda) {
+
+    alert(
+      "Primero debes subir y colocar un diseño en la camiseta."
+    );
+
+    return;
+  }
+
+
+  // =====================================================
+  // CONFIGURACIÓN
+  // =====================================================
+
+  const color =
+    customizerState.color;
+
+  const size =
+    customizerState.size;
+
+
+  // =====================================================
+  // GENERAR REFERENCIA
+  // =====================================================
+
+  const reference =
+    generarReferenciaPersonalizada();
+
+
+  // =====================================================
+  // ID DEL PRODUCTO
+  // =====================================================
+
+  const customId =
+    `custom-${Date.now()}`;
+
+
+  // =====================================================
+  // VARIABLES PARA LOS MOCKUPS
+  // =====================================================
+
+  let designFront = null;
+  let designBack = null;
+
+
+  // =====================================================
+  // GENERAR MOCKUP DEL FRENTE
+  // =====================================================
+
+  if (tieneFrente) {
+
+    customizerState.view = "frente";
+
+    loadCanvasState("frente");
+
+    // Esperar a que Fabric termine de cargar
+    await new Promise(resolve => {
+      setTimeout(resolve, 200);
+    });
+
+    designFront =
+      await generarImagenDiseno("frente");
+
+  }
+
+
+  // =====================================================
+  // GENERAR MOCKUP DE LA ESPALDA
+  // =====================================================
+
+  if (tieneEspalda) {
+
+    customizerState.view = "espalda";
+
+    loadCanvasState("espalda");
+
+    // Esperar a que Fabric termine de cargar
+    await new Promise(resolve => {
+      setTimeout(resolve, 200);
+    });
+
+    designBack =
+      await generarImagenDiseno("espalda");
+
+  }
+
+
+  // =====================================================
+  // RESTAURAR LA VISTA QUE TENÍA EL USUARIO
+  // =====================================================
+
+  restaurarVistaCustomizer(vistaOriginal);
+
+
+  // =====================================================
+  // CREAR PRODUCTO PERSONALIZADO
+  // =====================================================
+
+  const customProduct = {
+
+    id: customId,
+
+    name: "Camiseta personalizada",
+
+    cat: "crea",
+
+    reference: reference,
+
+    custom: true,
+
+    images: []
+
+  };
+
+
+  // =====================================================
+  // GUARDAR EN EL PEDIDO
+  // =====================================================
+
+  order[customId] = {
+
+    product: customProduct,
+
+    qty: 1,
+
+    customization: {
+
+      color: color,
+
+      size: size,
+
+      designs: {
+
+        frente: designFront,
+
+        espalda: designBack
+
+      }
+
+    }
+
+  };
+
+
+  // =====================================================
+  // ACTUALIZAR CARRITO
+  // =====================================================
+
+  updateCartCount();
+
+  renderDrawer();
+
+
+  // =====================================================
+  // ABRIR PEDIDO
+  // =====================================================
+
+  openDrawer();
+
+
+  // =====================================================
+  // CONFIRMACIÓN
+  // =====================================================
+
+  alert(
+  `¡Prenda agregada al pedido! 🎨\n\n` +
+  `Referencia: ${reference}\n\n` +
+  `Tus imágenes personalizadas ya están listas.\n\n` +
+  `📥 Descarga las imágenes de frente y/o espalda ` +
+  `desde "Tu pedido" y envíalas por el chat de WhatsApp ` +
+  `para que podamos verificar tu referencia.\n\n` +
+  `¡Gracias por confiar en Quinta Tinta! 💜`
+);
+
+}
+
+
+// =========================================================
+// RESTAURAR VISTA DEL PERSONALIZADOR
+// =========================================================
+
+function restaurarVistaCustomizer(view) {
+
+  if (!designCanvas) return;
+
+  const mockupImage =
+    document.getElementById("mockupImage");
+
+  const mockupColorLayer =
+    document.getElementById("mockupColorLayer");
+
+  const imagePath =
+    view === "frente"
+      ? "img/camisas/frente.png"
+      : "img/camisas/espalda.png";
+
+
+  if (mockupImage) {
+
+    mockupImage.src =
+      imagePath;
+
+  }
+
+
+  if (mockupColorLayer) {
+
+    mockupColorLayer.style.webkitMaskImage =
+      `url("${imagePath}")`;
+
+    mockupColorLayer.style.maskImage =
+      `url("${imagePath}")`;
+
+  }
+
+
+  customizerState.view =
+    view;
+
+
+  loadCanvasState(view);
+
+
+  document.querySelectorAll(".view-btn").forEach(button => {
+
+    button.classList.toggle(
+      "active",
+      button.dataset.view === view
+    );
+
+  });
+
+}
+
+
+
+
 function cambiarFoto(pid, delta, total){
   const actual = imgIndex[pid] || 0;
   imgIndex[pid] = (actual + delta + total) % total;
@@ -193,42 +507,297 @@ function renderLightbox(){
   }
 
   function renderDrawer(){
-    const list = document.getElementById("drawerList");
-    const items = Object.values(order);
-    if(items.length===0){
-      list.innerHTML = `<p class="drawer-empty">Aún no has agregado diseños.<br>Explora el catálogo y da clic en "Agregar a pedido".</p>`;
-      return;
-    }
-    list.innerHTML = items.map(({product,qty})=>{
-      const c = CATS[product.cat].tint;
-      return `
-      <div class="drawer-item">
-        <div class="di-swatch" style="background:linear-gradient(135deg, rgb(${c}), var(--ink));"></div>
-        <div class="di-info">
-          <h5>${product.name}</h5>
-          <span>${CATS[product.cat].label} · Ref. ${String(product.id).padStart(3,'0')}</span>
-        </div>
-        <div class="di-qty">
-          <button onclick="changeQty(${product.id},-1)" aria-label="Menos">−</button>
-          <span class="mono">${qty}</span>
-          <button onclick="changeQty(${product.id},1)" aria-label="Más">+</button>
-        </div>
-      </div>
-      <button class="di-remove" onclick="removeItem(${product.id})" style="align-self:flex-start;">Quitar</button>
-      `;
-    }).join("");
+
+  const list = document.getElementById("drawerList");
+
+  const items = Object.values(order);
+
+  if(items.length === 0){
+
+    list.innerHTML = `
+      <p class="drawer-empty">
+        Aún no has agregado diseños.<br>
+        Explora el catálogo y da clic en
+        "Agregar a pedido".
+      </p>
+    `;
+
+    return;
   }
 
+  list.innerHTML = items.map(({product, qty, customization}) => {
+
+    // =====================================================
+    // PRODUCTO PERSONALIZADO
+    // =====================================================
+
+    if(product.custom){
+
+      const color = customization?.color || "No especificado";
+      const size = customization?.size || "No especificada";
+
+      const colorNames = {
+
+        blanco: "Blanco",
+        negro: "Negro",
+        rosado: "Rosado",
+        morado: "Morado",
+        azul: "Azul"
+
+      };
+
+      const colorMostrar =
+        colorNames[color] || color.toUpperCase();
+
+      return `
+
+        <div class="drawer-item custom-drawer-item">
+
+          <div
+            class="di-swatch"
+            style="
+              background:
+              linear-gradient(
+                135deg,
+                #E6127F,
+                #7135C9
+              );
+            "
+          ></div>
+
+          <div class="di-info">
+
+  <h5>
+    ${product.name}
+  </h5>
+
+  <span>
+    Personalizada · ${product.reference}
+  </span>
+
+  <small>
+    Color: ${colorMostrar}
+    · Talla: ${size}
+  </small>
+
+  <div class="custom-order-help">
+
+    <strong>🎨 Tu diseño está listo</strong>
+
+    <p>
+      Descarga tus imágenes personalizadas y envíalas
+      por WhatsApp junto con tu referencia para
+      verificar tu diseño.
+    </p>
+
+  </div>
+
+</div>
+
+          <div class="di-qty">
+
+            <button
+              onclick="changeQty('${product.id}',-1)"
+              aria-label="Menos"
+            >
+              −
+            </button>
+
+            <span class="mono">
+              ${qty}
+            </span>
+
+            <button
+              onclick="changeQty('${product.id}',1)"
+              aria-label="Más"
+            >
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+        <div class="custom-designs">
+
+  ${customization?.designs?.frente ? `
+    <button
+      class="di-remove"
+      onclick="descargarDiseno('${product.id}', 'frente')"
+    >
+      ↓ Descargar frente
+    </button>
+  ` : ""}
+
+  ${customization?.designs?.espalda ? `
+    <button
+      class="di-remove"
+      onclick="descargarDiseno('${product.id}', 'espalda')"
+    >
+      ↓ Descargar espalda
+    </button>
+  ` : ""}
+
+</div>
+
+<button
+  class="di-remove"
+  onclick="removeItem('${product.id}')"
+  style="align-self:flex-start;"
+>
+  Quitar
+</button>
+
+      `;
+
+    }
+
+
+    // =====================================================
+    // PRODUCTO NORMAL
+    // =====================================================
+
+    const c = CATS[product.cat].tint;
+
+    return `
+
+      <div class="drawer-item">
+
+        <div
+          class="di-swatch"
+          style="
+            background:
+            linear-gradient(
+              135deg,
+              rgb(${c}),
+              var(--ink)
+            );
+          "
+        ></div>
+
+        <div class="di-info">
+
+          <h5>
+            ${product.name}
+          </h5>
+
+          <span>
+            ${CATS[product.cat].label}
+            · Ref.
+            ${String(product.id).padStart(3,'0')}
+          </span>
+
+        </div>
+
+        <div class="di-qty">
+
+          <button
+            onclick="changeQty(${product.id},-1)"
+            aria-label="Menos"
+          >
+            −
+          </button>
+
+          <span class="mono">
+            ${qty}
+          </span>
+
+          <button
+            onclick="changeQty(${product.id},1)"
+            aria-label="Más"
+          >
+            +
+          </button>
+
+        </div>
+
+      </div>
+
+      <button
+        class="di-remove"
+        onclick="removeItem(${product.id})"
+        style="align-self:flex-start;"
+      >
+        Quitar
+      </button>
+
+    `;
+
+  }).join("");
+
+}
+
   function buildOrderMessage(){
-    const items = Object.values(order);
-    if(items.length===0) return `Hola ${STORE_NAME}, quiero información sobre sus diseños.`;
-    let msg = `Hola ${STORE_NAME}, quiero cotizar este pedido:\n`;
-    items.forEach(({product,qty})=>{
-      msg += `• ${product.name} (${CATS[product.cat].label}) x${qty}\n`;
-    });
-    msg += `\n¿Me confirman tallas, colores disponibles y tiempo de entrega?`;
-    return msg;
+
+  const items = Object.values(order);
+
+  if(items.length === 0) {
+
+    return `Hola ${STORE_NAME}, quiero información sobre sus diseños.`;
+
   }
+
+  let msg =
+    `Hola ${STORE_NAME}, quiero cotizar este pedido:\n\n`;
+
+  items.forEach(({product, qty, customization}) => {
+
+    // =====================================================
+    // PRENDA PERSONALIZADA
+    // =====================================================
+
+    if(product.custom){
+
+      const colorNames = {
+
+        blanco: "Blanco",
+        negro: "Negro",
+        rosado: "Rosado",
+        morado: "Morado",
+        azul: "Azul"
+
+      };
+
+      const color =
+        colorNames[customization?.color]
+        || customization?.color
+        || "No especificado";
+
+      const size =
+        customization?.size
+        || "No especificada";
+
+      msg +=
+        `👕 ${product.name}\n` +
+        `Ref: ${product.reference}\n` +
+        `Color: ${color}\n` +
+        `Talla: ${size}\n` +
+        `Cantidad: ${qty}\n\n`;
+
+    }
+
+    // =====================================================
+    // PRODUCTO NORMAL
+    // =====================================================
+
+    else {
+
+      msg +=
+        `• ${product.name} ` +
+        `(${CATS[product.cat].label}) ` +
+        `x${qty}\n`;
+
+    }
+
+  });
+
+  msg +=
+    `\n¿Me confirman disponibilidad, ` +
+    `precio y tiempo de entrega?`;
+
+  return msg;
+
+}
 
   function buildQuickMessage(pid){
     const product = PRODUCTS.find(p=>p.id===pid);
@@ -240,13 +809,46 @@ function renderLightbox(){
   }
 
   function updateWaLinks(){
-    const generic = waUrl(`Hola ${STORE_NAME}, quiero más información sobre sus diseños.`);
-    document.getElementById("heroWaLink").href = generic;
-    document.getElementById("contactWaLink").href = generic;
-    document.getElementById("fabWaLink").href = generic;
-    document.getElementById("sendOrderWa").href = waUrl(buildOrderMessage());
+  const generic = waUrl(
+    `Hola ${STORE_NAME}, quiero más información sobre sus diseños.`
+  );
+
+  const botonPrincipal = document.getElementById("botonprincipal");
+  const fabWaLink = document.getElementById("fabWaLink");
+  const sendOrderWa = document.getElementById("sendOrderWa");
+
+  if (botonPrincipal) {
+    botonPrincipal.href = generic;
   }
 
+  if (fabWaLink) {
+    fabWaLink.href = generic;
+  }
+
+  if (sendOrderWa) {
+
+    // Si no hay productos en el pedido
+    if (Object.keys(order).length === 0) {
+
+      sendOrderWa.href = "#";
+
+      sendOrderWa.onclick = function(e) {
+        e.preventDefault();
+
+        alert("Tu pedido está vacío. Agrega al menos un diseño antes de enviarlo por WhatsApp.");
+
+        return false;
+      };
+
+    } else {
+
+      // Si sí hay productos
+      sendOrderWa.href = waUrl(buildOrderMessage());
+
+      sendOrderWa.onclick = null;
+    }
+  }
+}
   function quickQuote(pid){
     window.open(waUrl(buildQuickMessage(pid)), "_blank");
   }
@@ -555,6 +1157,380 @@ function loadCanvasState(view) {
   });
 }
 
+// =========================================================
+// GENERAR IMAGEN DEL DISEÑO PERSONALIZADO
+// =========================================================
+
+// =========================================================
+// GENERAR MOCKUP COMPLETO DE LA PRENDA
+// =========================================================
+
+// =========================================================
+// GENERAR MOCKUP COMPLETO
+// CAMISETA + COLOR + DISEÑO
+// =========================================================
+
+function generarImagenDiseno(view) {
+
+  return new Promise((resolve) => {
+
+    if (!designCanvas) {
+      resolve(null);
+      return;
+    }
+
+    const state = canvasStates[view];
+
+    if (
+      !state ||
+      !state.objects ||
+      state.objects.length === 0
+    ) {
+      resolve(null);
+      return;
+    }
+
+    const mockupPath =
+      view === "frente"
+        ? "img/camisas/frente.png"
+        : "img/camisas/espalda.png";
+
+
+    // =====================================================
+    // CREAR IMAGEN DEL MOCKUP
+    // =====================================================
+
+    const mockupImg = new Image();
+
+    mockupImg.crossOrigin = "anonymous";
+
+
+    mockupImg.onload = function () {
+
+      // ===================================================
+      // DIMENSIONES
+      // ===================================================
+
+      const width =
+        mockupImg.naturalWidth;
+
+      const height =
+        mockupImg.naturalHeight;
+
+
+      // ===================================================
+      // CANVAS FINAL
+      // ===================================================
+
+      const finalCanvas =
+        document.createElement("canvas");
+
+      finalCanvas.width = width;
+      finalCanvas.height = height;
+
+      const ctx =
+        finalCanvas.getContext("2d");
+
+
+      // ===================================================
+      // 1. DIBUJAR MOCKUP ORIGINAL
+      // ===================================================
+
+      ctx.drawImage(
+        mockupImg,
+        0,
+        0,
+        width,
+        height
+      );
+
+
+      // ===================================================
+      // 2. CREAR MÁSCARA DE COLOR
+      // ===================================================
+
+      const colorCanvas =
+        document.createElement("canvas");
+
+      colorCanvas.width = width;
+      colorCanvas.height = height;
+
+      const colorCtx =
+        colorCanvas.getContext("2d");
+
+
+      // Dibujamos el mockup como máscara
+      colorCtx.drawImage(
+        mockupImg,
+        0,
+        0,
+        width,
+        height
+      );
+
+
+      // ===================================================
+      // COLOR SELECCIONADO
+      // ===================================================
+
+      let color = "#FFFFFF";
+
+      const colores = {
+
+        blanco: "#FFFFFF",
+        negro: "#171717",
+        rosado: "#E91E73",
+        morado: "#7135C9",
+        azul: "#2878C8"
+
+      };
+
+
+      if (customizerState.color.startsWith("#")) {
+
+        color =
+          customizerState.color;
+
+      } else {
+
+        color =
+          colores[customizerState.color]
+          || "#FFFFFF";
+
+      }
+
+
+      // ===================================================
+      // COLOCAR COLOR DENTRO DE LA SILUETA
+      // ===================================================
+
+      colorCtx.globalCompositeOperation =
+        "source-in";
+
+      colorCtx.fillStyle =
+        color;
+
+      colorCtx.fillRect(
+        0,
+        0,
+        width,
+        height
+      );
+
+
+      // ===================================================
+      // APLICAR COLOR SOBRE EL MOCKUP
+      // ===================================================
+
+      ctx.save();
+
+      ctx.globalAlpha = 0.82;
+
+      ctx.globalCompositeOperation =
+        "multiply";
+
+      ctx.drawImage(
+        colorCanvas,
+        0,
+        0
+      );
+
+      ctx.restore();
+
+
+      // ===================================================
+      // 3. OBTENER DISEÑO DE FABRIC
+      // ===================================================
+
+      const designData =
+        designCanvas.toDataURL({
+          format: "png",
+          quality: 1,
+          multiplier:
+            width / designCanvas.getWidth()
+        });
+
+
+      const designImg =
+        new Image();
+
+
+      designImg.onload = function () {
+
+        // ================================================
+        // CALCULAR POSICIÓN
+        // ================================================
+
+        const scaleX =
+          width /
+          designCanvas.getWidth();
+
+        const scaleY =
+          height /
+          designCanvas.getHeight();
+
+
+        ctx.save();
+
+        ctx.scale(
+          scaleX,
+          scaleY
+        );
+
+
+        // ================================================
+        // DIBUJAR DISEÑO
+        // ================================================
+
+        ctx.drawImage(
+          designImg,
+          0,
+          0,
+          designCanvas.getWidth(),
+          designCanvas.getHeight()
+        );
+
+
+        ctx.restore();
+
+
+        // ================================================
+        // EXPORTAR
+        // ================================================
+
+        resolve(
+          finalCanvas.toDataURL(
+            "image/png",
+            1
+          )
+        );
+
+      };
+
+
+      designImg.onerror = function () {
+
+        console.error(
+          "No se pudo cargar el diseño."
+        );
+
+        resolve(null);
+
+      };
+
+
+      designImg.src =
+        designData;
+
+    };
+
+
+    mockupImg.onerror = function () {
+
+      console.error(
+        "No se pudo cargar el mockup:",
+        mockupPath
+      );
+
+      resolve(null);
+
+    };
+
+
+    mockupImg.src =
+      mockupPath;
+
+  });
+
+}
+
+
+// =========================================================
+// CAPTURAR MOCKUP COMPLETO
+// =========================================================
+
+function capturarMockup(view, resolve) {
+
+  const stage =
+    document.getElementById("mockupStage");
+
+  if (!stage) {
+
+    resolve(null);
+
+    return;
+  }
+
+  html2canvas(stage, {
+
+    backgroundColor: null,
+
+    scale: 2,
+
+    useCORS: true,
+
+    allowTaint: false
+
+  }).then(canvas => {
+
+    resolve(
+      canvas.toDataURL("image/png", 1)
+    );
+
+  }).catch(error => {
+
+    console.error(
+      "Error generando mockup:",
+      error
+    );
+
+    resolve(null);
+
+  });
+
+}
+
+
+// =========================================================
+// DESCARGAR DISEÑO PERSONALIZADO
+// =========================================================
+
+function descargarDiseno(customId, view) {
+
+  const item = order[customId];
+
+  if (!item || !item.customization) {
+
+    alert("No se encontró el diseño personalizado.");
+
+    return;
+  }
+
+  const dataURL = item.customization.designs?.[view];
+
+  if (!dataURL) {
+
+    alert(
+      `No hay un diseño personalizado para la vista ${view}.`
+    );
+
+    return;
+  }
+
+  const link = document.createElement("a");
+
+  link.href = dataURL;
+
+  link.download =
+    `${item.product.reference}-${view}.png`;
+
+  document.body.appendChild(link);
+
+  link.click();
+
+  document.body.removeChild(link);
+}
+
 
 function changeCustomizerView(view) {
 
@@ -569,6 +1545,19 @@ function changeCustomizerView(view) {
   ========================================================= */
 
   saveCurrentCanvasState();
+
+
+  // Guardar imagen de la vista actual
+if (designCanvas.getObjects().length > 0) {
+
+  canvasStates[customizerState.view].image =
+    designCanvas.toDataURL({
+      format: "png",
+      quality: 1,
+      multiplier: 2
+    });
+
+}
 
 
   /* =========================================================
@@ -868,9 +1857,24 @@ function changeCustomizerCustomColor(color) {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  /*
-   * Frente / espalda
-   */
+  // =========================================================
+// BOTÓN AGREGAR PRENDA PERSONALIZADA
+// =========================================================
+
+const addCustomProduct =
+  document.getElementById("addCustomProduct");
+
+if (addCustomProduct) {
+
+  addCustomProduct.addEventListener("click", function() {
+
+    addCustomProductToOrder();
+
+  });
+
+}
+
+  /** Frente / espalda*/
 
   document.querySelectorAll(".view-btn").forEach(button => {
 
@@ -883,9 +1887,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  /*
-   * Colores
-   */
+  /** Colores*/
 
   document.querySelectorAll(".color-option").forEach(button => {
 
@@ -897,9 +1899,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   });
 
-  /*
- * COLOR PERSONALIZADO
- */
+  /**COLOR PERSONALIZADO*/
 
 const customColorPicker =
   document.getElementById("customColorPicker");
@@ -921,9 +1921,7 @@ if (customColorPicker) {
 }
   
 
-  /*
-   * Tallas
-   */
+  /** Tallas*/
 
   document.querySelectorAll(".size-option").forEach(button => {
 

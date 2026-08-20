@@ -862,3 +862,52 @@
   }
 
 }
+
+@media (max-width: 900px) {
+
+    .links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+
+        flex-direction: column;
+
+        background: var(--ink);
+
+        padding: 15px 20px;
+
+        border-top: 1px solid #333;
+
+        z-index: 9999;
+    }
+
+    .links.active {
+        display: flex;
+    }
+
+    .links button {
+        width: 100%;
+        text-align: left;
+
+        padding: 14px 10px;
+
+        background: transparent;
+        border: none;
+
+        color: white;
+
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+
+        text-transform: uppercase;
+
+        cursor: pointer;
+    }
+
+    .links button:hover {
+        color: var(--magenta);
+    }
+
+}
