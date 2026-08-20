@@ -1494,6 +1494,52 @@ footer b{color:var(--text-on-ink);}
         flex-shrink: 0;
     }
 
+
+    /* =========================================================
+   EXPERIENCIA TÁCTIL DEL PERSONALIZADOR
+========================================================= */
+
+#mockupStage {
+    touch-action: pan-y;
+}
+
+#designCanvas {
+    touch-action: pan-y;
+}
+
+/* En dispositivos táctiles */
+@media (hover: none) and (pointer: coarse) {
+
+    #mockupStage {
+        touch-action: pan-y;
+        overscroll-behavior: contain;
+    }
+
+}
+
+.mobile-editor-help {
+    display: none;
+}
+
+@media (max-width: 768px) {
+
+    .mobile-editor-help {
+        display: block;
+        margin: 10px 0 15px;
+        padding: 10px 14px;
+        border-radius: 10px;
+
+        font-size: 13px;
+        line-height: 1.4;
+
+        background: #f7f7f7;
+        color: #444;
+
+        text-align: center;
+    }
+
+}
+
     /* =========================================================
    CONFIGURADOR RESPONSIVE - TABLET / CELULAR
 ========================================================= */

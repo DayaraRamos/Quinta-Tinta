@@ -510,7 +510,15 @@ function renderLightbox(){
 
   const list = document.getElementById("drawerList");
 
-  const items = Object.values(order);
+  const items = Object.values(order).sort((a, b) => {
+
+  // Las prendas personalizadas siempre aparecen primero
+  if (a.product.custom && !b.product.custom) return -1;
+  if (!a.product.custom && b.product.custom) return 1;
+
+  return 0;
+
+});
 
   if(items.length === 0){
 
@@ -582,15 +590,20 @@ function renderLightbox(){
 
   <div class="custom-order-help">
 
-    <strong>🎨 Tu diseño está listo</strong>
+  <strong>⚠️ ACCIÓN REQUERIDA</strong>
 
-    <p>
-      Descarga tus imágenes personalizadas y envíalas
-      por WhatsApp junto con tu referencia para
-      verificar tu diseño.
-    </p>
+  <p>
+    Tu prenda personalizada está lista.
+  </p>
 
-  </div>
+  <p>
+    <b>1.</b> Descarga tu diseño.<br>
+    <b>2.</b> Envía la imagen por WhatsApp.<br>
+    <b>3.</b> Indica la referencia
+    <b>${product.reference}</b>.
+  </p>
+
+</div>
 
 </div>
 
@@ -622,19 +635,19 @@ function renderLightbox(){
 
   ${customization?.designs?.frente ? `
     <button
-      class="di-remove"
+      class="custom-download-btn"
       onclick="descargarDiseno('${product.id}', 'frente')"
     >
-      ↓ Descargar frente
+      ⬇ Descargar diseño · Frente
     </button>
   ` : ""}
 
   ${customization?.designs?.espalda ? `
     <button
-      class="di-remove"
+      class="custom-download-btn"
       onclick="descargarDiseno('${product.id}', 'espalda')"
     >
-      ↓ Descargar espalda
+      ⬇ Descargar diseño · Espalda
     </button>
   ` : ""}
 
@@ -808,46 +821,167 @@ function renderLightbox(){
     return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
   }
 
-  function updateWaLinks(){
+  function updateWaLinks() {
+
   const generic = waUrl(
     `Hola ${STORE_NAME}, quiero más información sobre sus diseños.`
   );
 
-  const botonPrincipal = document.getElementById("botonprincipal");
-  const fabWaLink = document.getElementById("fabWaLink");
-  const sendOrderWa = document.getElementById("sendOrderWa");
+  const botonPrincipal =
+    document.getElementById("botonprincipal");
+
+  const fabWaLink =
+    document.getElementById("fabWaLink");
+
+  const sendOrderWa =
+    document.getElementById("sendOrderWa");
+
+
+  // ==========================================
+  // ENLACES GENERALES
+  // ==========================================
 
   if (botonPrincipal) {
+
     botonPrincipal.href = generic;
+
   }
+
 
   if (fabWaLink) {
+
     fabWaLink.href = generic;
+
   }
 
-  if (sendOrderWa) {
 
-    // Si no hay productos en el pedido
-    if (Object.keys(order).length === 0) {
+  // ==========================================
+  // BOTÓN DE PEDIDO
+  // ==========================================
 
-      sendOrderWa.href = "#";
+  if (!sendOrderWa) return;
 
-      sendOrderWa.onclick = function(e) {
-        e.preventDefault();
 
-        alert("Tu pedido está vacío. Agrega al menos un diseño antes de enviarlo por WhatsApp.");
+  // ==========================================
+  // PEDIDO VACÍO
+  // ==========================================
 
-        return false;
-      };
+  if (Object.keys(order).length === 0) {
 
-    } else {
+    sendOrderWa.href = "#";
 
-      // Si sí hay productos
-      sendOrderWa.href = waUrl(buildOrderMessage());
+    sendOrderWa.onclick = function(e) {
 
-      sendOrderWa.onclick = null;
+      e.preventDefault();
+
+      alert(
+        "Tu pedido está vacío. " +
+        "Agrega al menos un diseño antes de enviarlo por WhatsApp."
+      );
+
+      return false;
+
+    };
+
+    return;
+
+  }
+
+
+  // ==========================================
+  // BUSCAR PRENDAS PERSONALIZADAS
+  // ==========================================
+
+  const personalizados =
+    Object.values(order).filter(
+      item => item.product.custom
+    );
+
+
+  // ==========================================
+  // VERIFICAR DESCARGAS
+  // ==========================================
+
+  let faltanDescargas = false;
+
+
+  personalizados.forEach(item => {
+
+    const designs =
+      item.customization?.designs || {};
+
+    const downloaded =
+      item.downloaded || {};
+
+
+    // Frente existe pero no se descargó
+    if (
+      designs.frente &&
+      !downloaded.frente
+    ) {
+
+      faltanDescargas = true;
+
     }
+
+
+    // Espalda existe pero no se descargó
+    if (
+      designs.espalda &&
+      !downloaded.espalda
+    ) {
+
+      faltanDescargas = true;
+
+    }
+
+  });
+
+
+  // ==========================================
+  // SI FALTAN DESCARGAS
+  // ==========================================
+
+  if (faltanDescargas) {
+
+    sendOrderWa.href = "#";
+
+    sendOrderWa.onclick = function(e) {
+
+      e.preventDefault();
+
+      alert(
+        "⚠️ Antes de enviar tu pedido\n\n" +
+
+        "Tienes una prenda personalizada " +
+        "que todavía requiere descargar " +
+        "su diseño.\n\n" +
+
+        "⬇️ Descarga la imagen de frente " +
+        "y/o espalda desde \"Tu pedido\".\n\n" +
+
+        "Después envía esas imágenes por WhatsApp " +
+        "junto con la referencia de tu prenda."
+      );
+
+      return false;
+
+    };
+
+    return;
+
   }
+
+
+  // ==========================================
+  // TODO CORRECTO → WHATSAPP
+  // ==========================================
+
+  sendOrderWa.href =
+    waUrl(buildOrderMessage());
+
+  sendOrderWa.onclick = null;
+
 }
   function quickQuote(pid){
     window.open(waUrl(buildQuickMessage(pid)), "_blank");
@@ -903,10 +1037,15 @@ function initCustomizer() {
   if (!canvasElement) return;
 
   designCanvas = new fabric.Canvas(canvasElement, {
-    preserveObjectStacking: true,
-    selection: true,
-    stopContextMenu: true
-  });
+  preserveObjectStacking: true,
+  selection: true,
+  stopContextMenu: true,
+
+  // En móviles permitimos que el navegador
+  // pueda hacer scroll cuando el usuario toca
+  // una zona vacía del canvas.
+  allowTouchScrolling: true
+});
 
   resizeDesignCanvas();
 
@@ -936,6 +1075,55 @@ function initCustomizer() {
   designCanvas.on("object:rotating", function(e) {
     e.target.setCoords();
   });
+
+  // =========================================================
+// CONTROL TÁCTIL EN CELULAR
+// =========================================================
+
+let touchStartX = 0;
+let touchStartY = 0;
+let touchOnObject = false;
+
+canvasElement.addEventListener("touchstart", function(e) {
+
+  if (e.touches.length !== 1) return;
+
+  const touch = e.touches[0];
+
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+
+  const pointer = designCanvas.getPointer(e);
+
+  const target = designCanvas.findTarget(e, false);
+
+  touchOnObject = !!target;
+
+}, { passive: true });
+
+
+canvasElement.addEventListener("touchmove", function(e) {
+
+  if (e.touches.length !== 1) return;
+
+  // Si el usuario está tocando un objeto,
+  // Fabric puede manejar el movimiento.
+  if (touchOnObject) return;
+
+  const touch = e.touches[0];
+
+  const deltaX = Math.abs(touch.clientX - touchStartX);
+  const deltaY = Math.abs(touch.clientY - touchStartY);
+
+  // Si está haciendo un gesto vertical,
+  // dejamos que el navegador haga scroll.
+  if (deltaY > deltaX && deltaY > 5) {
+
+    e.stopPropagation();
+
+  }
+
+}, { passive: true });
 }
 
 
@@ -1506,7 +1694,8 @@ function descargarDiseno(customId, view) {
     return;
   }
 
-  const dataURL = item.customization.designs?.[view];
+  const dataURL =
+    item.customization.designs?.[view];
 
   if (!dataURL) {
 
@@ -1517,7 +1706,24 @@ function descargarDiseno(customId, view) {
     return;
   }
 
-  const link = document.createElement("a");
+  // ==========================================
+  // CREAR REGISTRO DE DESCARGA
+  // ==========================================
+
+  if (!item.downloaded) {
+
+    item.downloaded = {};
+
+  }
+
+  item.downloaded[view] = true;
+
+  // ==========================================
+  // DESCARGAR
+  // ==========================================
+
+  const link =
+    document.createElement("a");
 
   link.href = dataURL;
 
@@ -1529,6 +1735,15 @@ function descargarDiseno(customId, view) {
   link.click();
 
   document.body.removeChild(link);
+
+  // ==========================================
+  // ACTUALIZAR PEDIDO
+  // ==========================================
+
+  renderDrawer();
+
+  updateWaLinks();
+
 }
 
 
