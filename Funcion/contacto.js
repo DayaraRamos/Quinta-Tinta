@@ -99,3 +99,36 @@ function toggleBrandReveal(){
     updateCartCount();
     renderDrawer();
   }
+
+  // ===============================
+// MAPA DE QUINTA TINTA
+// ===============================
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const mapElement = document.getElementById("map");
+
+    if (!mapElement) return;
+
+    // Coordenadas aproximadas de Quinta Tinta
+    const quintaTinta = [4.7073, -74.2302];
+
+    // Crear mapa
+    const map = L.map("map").setView(quintaTinta, 17);
+
+    // Cargar mapa de OpenStreetMap
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Crear marcador
+    L.marker(quintaTinta)
+        .addTo(map)
+        .bindPopup(`
+            <strong>Quinta Tinta</strong><br>
+            Cra 3 #2-57<br>
+            Mosquera, Cundinamarca
+        `)
+        .openPopup();
+
+});
